@@ -1,4 +1,8 @@
+/* globals CallsHandler, CallScreen, Contacts, ContactPhotoHelper,
+    KeypadManager, kFontStep, LazyL10n, Utils, Voicemail */
+
 'use strict';
+
 
 function HandledCall(aCall) {
   this.photo = null;
@@ -39,6 +43,7 @@ function HandledCall(aCall) {
 
   this.durationNode = this.node.querySelector('.duration');
   this.durationChildNode = this.node.querySelector('.duration span');
+  this.totalDurationNode = this.node.querySelector('.total-duration');
   this.numberNode = this.node.querySelector('.numberWrapper .number');
   this.additionalInfoNode = this.node.querySelector('.additionalContactInfo');
   this.hangupButton = this.node.querySelector('.hangup-button');
@@ -99,7 +104,6 @@ HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {
   var number = this.call.number;
   var secondNumber = this.call.secondNumber;
   var node = this.numberNode;
-  var additionalInfoNode = this.additionalInfoNode;
   var self = this;
 
   CallScreen.setCallerContactImage(null);
@@ -137,7 +141,6 @@ HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {
     return;
   }
 
-  var self = this;
   Voicemail.check(number, function(isVoicemailNumber) {
     if (isVoicemailNumber) {
       LazyL10n.get(function localized(_) {
@@ -159,9 +162,7 @@ HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {
       if (self._iccCallMessage) {
         self.replacePhoneNumber(self._iccCallMessage, 'end', true);
         self._cachedInfo = self._iccCallMessage;
-        var clearReq = navigator.mozSettings.createLock().set({
-          'icc.callmessage': null
-        });
+        navigator.mozSettings.createLock().set({'icc.callmessage': null});
       }
     };
   }
@@ -286,6 +287,13 @@ HandledCall.prototype.remove = function hc_remove() {
 
   var self = this;
   CallScreen.stopTicker(this.durationNode);
+  var currentDuration = this.durationChildNode.textContent;
+  console.log(currentDuration);
+  console.log(this.call.group);
+  console.log(JSON.stringify(this.call));
+  console.log(CallsHandler.activeCall);
+  this.totalDurationNode.textContent = currentDuration.indexOf(':') !== -1 ?
+    currentDuration : '';
 
   LazyL10n.get(function localized(_) {
     self.durationNode.classList.remove('isTimer');

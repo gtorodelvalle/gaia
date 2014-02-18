@@ -18,8 +18,17 @@
     font-weight: 300;
   }
 
-  #calls:not(.big-duration) .duration .font-light {
+  #calls:not(.big-duration) .duration {
+    padding-left: 1.5rem;
+  }
+
+  #calls:not(.big-duration) .duration span.font-light {
     font-weight: normal;
+    line-height: 8rem;
+  }
+
+  #calls:not(.big-duration) .duration .total-duration {
+    display: none;
   }
 
   button::-moz-focus-inner {
@@ -366,7 +375,6 @@
     height: 8rem;
 
     font-size: 1.8rem;
-    line-height: 8rem;
     background-color: #01c5ed;
 
     transition: background-color 0.3s linear;
@@ -519,19 +527,29 @@
     position: absolute;
     top: 10rem;
     left: 0;
-    height: 7.5rem;
+    height: 9.5rem;
     width: 100%;
   }
 
   #calls.big-duration > section .duration > span {
     font-size: 2.7rem;
-    line-height: 11.1rem;
     text-shadow: 0 0.2rem 0.1rem rgba(0,0,0,0.3);
   }
 
   #calls.big-duration > section .duration.isTimer > span {
     font-size: 5.9rem;
-    line-height: 8.1rem;
+  }
+
+  #calls.big-duration > section > .duration > .total-duration {
+    display: none;
+  }
+
+  #calls.big-duration > section.ended > .duration > .total-duration {
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 1.6rem;
+    text-shadow: 0 0.1rem 0 rgba(0,0,0,0.3);
   }
 
   #calls:not(.big-duration) > section.incoming {
@@ -616,8 +634,21 @@
     background-image: url('images/hold_icon.png');
   }
 
-  #calls:not(.big-duration) > section.ended .duration .font-light {
+  #calls:not(.big-duration) > section.ended .duration {
+    padding: 0rem;
+  }
+
+  #calls:not(.big-duration) > section.ended .duration span.font-light {
     font-size: 3.2rem;
+    color: white;
+    float: left;
+  }
+
+  #calls:not(.big-duration) > section.ended .duration .total-duration {
+    display: inline;
+    float: right;
+    padding: 0 1.5rem 0 0;
+    line-height: 8rem;
     color: white;
   }
 
