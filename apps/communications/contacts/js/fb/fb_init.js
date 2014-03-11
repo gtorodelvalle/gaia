@@ -14,8 +14,18 @@ if (typeof fb.init === 'undefined') {
       }
       initialized = true;
       var req = utils.config.load('/contacts/config.json');
+      window.console.error('xxxxxxxxxxxxxxxxxxxxx');
+      window.console.error('LOADING config.json!!!');
+      window.console.error('xxxxxxxxxxxxxxxxxxxxx');
 
       req.onload = function(configData) {
+        window.console.error('xxxxxxxxxxxxxxxxxxxxx');
+        window.console.error('LOADED config.json!!!');
+        window.console.error('configData.facebookEnabled: ' +
+                             configData.facebookEnabled);
+        window.console.error('configData.facebookSyncPeriod: ' +
+                             configData.facebookSyncPeriod);
+        window.console.error('xxxxxxxxxxxxxxxxxxxxx');
         if (configData.facebookEnabled === true) {
           fb.isEnabled = true;
         }
@@ -30,6 +40,9 @@ if (typeof fb.init === 'undefined') {
       };
 
       req.onerror = function(code) {
+        window.console.error('xxxxxxxxxxxxxxxxxxxxx');
+        window.console.error('LOADING ERROR config.json!!!');
+        window.console.error('xxxxxxxxxxxxxxxxxxxxx');
         window.console.error('Contacts: Error while checking if FB is enabled',
                              code);
       };

@@ -12,11 +12,18 @@ if (typeof utils.config === 'undefined') {
 
       var data = loaded[resource];
       if (data) {
+        window.console.error('xxxxxxxxxxxxxxxxxx');
+        window.console.error('CACHE: 'pendingRequests + resource);
+        window.console.error('xxxxxxxxxxxxxxxxxx');
         window.setTimeout(function() {
+          window.console.error('HERE 1');
           outReq.completed(data);
         },0);
       }
       else {
+        window.console.error('xxxxxxxxxxxxxxxxxx');
+        window.console.error('NOT IN CACHE: ' + resource);
+        window.console.error('xxxxxxxxxxxxxxxxxx');
         var requests = pendingRequests[resource];
         if (!Array.isArray(requests)) {
           pendingRequests[resource] = requests = [];
@@ -26,11 +33,18 @@ if (typeof utils.config === 'undefined') {
         if (!isLoading) {
           loading[resource] = true;
           window.setTimeout(function do_load() {
+            window.console.error('xxxxxxxxxxxxxxxxxx');
+            window.console.error('SENDING XHR: ' + resource);
+            window.console.error('xxxxxxxxxxxxxxxxxx');
             var xhr = new XMLHttpRequest();
             xhr.overrideMimeType('application/json');
             xhr.open('GET', resource, true);
 
             xhr.onreadystatechange = function() {
+              window.console.error('xxxxxxxxxxxxxxxxxx');
+              window.console.error('READY XHR: ' + xhr.readyState + ' - ' +
+                                   xhr.status);
+              window.console.error('xxxxxxxxxxxxxxxxxx');
               // We will get a 0 status if the app is in app://
               if (xhr.readyState === 4 && (xhr.status === 200 ||
                                            xhr.status === 0)) {

@@ -82,7 +82,7 @@ CommAppBuilder.prototype.generateContactsConfig = function() {
     'facebookEnabled': true,
     'operationsTimeout': 25000,
     'logLevel': 'DEBUG',
-    'facebookSyncPeriod': 24,
+    'facebookSyncPeriod': 24 * (1/24) * (1/60),
     'testToken': ''
   };
   utils.writeContent(configFile,
