@@ -127,13 +127,14 @@ Contacts.prototype = {
   },
 
   waitForFormShown: function() {
-    var form = this.client.helper.waitForElement(Contacts.Selectors.form),
+    var form,
         location;
-    var test = function() {
+    var test = function(client) {
+      form = client.findElement(Contacts.Selectors.form);
       location = form.location();
       return location.y <= 0;
     };
-    this.client.waitFor(test);
+    this.client.waitFor(test.bind(null, this.client));
   },
 
   waitForFormTransition: function() {
