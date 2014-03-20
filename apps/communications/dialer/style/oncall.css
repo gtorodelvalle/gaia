@@ -16,10 +16,12 @@
 
   .font-light {
     font-weight: 300;
+    font-style: italic;
   }
 
   #calls:not(.big-duration) .duration .font-light {
     font-weight: normal;
+    font-style: italic;
   }
 
   button::-moz-focus-inner {
@@ -55,6 +57,7 @@
   .grid {
     display:table;
     table-layout:fixed;
+    border:0;
   }
 
   .grid.hide {
@@ -168,7 +171,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: rgba(255, 255, 255, 0.40);
     width: 100%;
     height: 100%;
   }
@@ -205,21 +208,18 @@
 
   #co-advanced {
     height: 8rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .co-advanced-option {
     height: 8rem;
     width: 100%;
-    background: rgba(24, 24, 24, 0.85);
-    border: solid 0.1rem black;
-    border-left-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.85);
     -moz-box-sizing: border-box;
     border-radius: 0;
   }
 
   .co-advanced-option:not([disabled]):active {
-    background: #00aacc;
+    background: #33cccc;
   }
 
 
@@ -249,33 +249,29 @@
   button[disabled] .icon {
     opacity: 0.6;
   }
-
+  /*when it's active*/
   .icon-mute {
-    background-image: url('images/ActionIcon_40x40_mute.png');
+    background-image: url('images/actionicon_activecall_mute_40x80.svg');
   }
 
   .icon-keypad-visibility {
-    background-image: url('images/ActionIcon_40x40_dialpad.png');
+    background-image: url('images/actionicon_activecall_dialpad.svg');
   }
 
   .icon-place-new-call {
-    background-image: url('images/ActionIcon_40x40_placenewcall.png');
+    background-image: url('images/actionicon_activecall_add_call.svg');
   }
 
   .icon-speaker {
-    background-image: url('images/ActionIcon_40x40_speaker.png') ;
+    background-image: url('images/actionicon_activecall_speaker_40x80.svg') ;
   }
 
   .icon-bt {
-    background-image: url('images/ActionIcon_40x40_audiosourcemenu.png');
+    background-image: url('images/actionicon_activecall_speaker.svg');
   }
 
   #callbar {
-    background: rgba(24, 24, 24, 0.85);
-    border: solid 0.1rem rgba(255, 255, 255, 0.2);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
-    border-left: 0;
+    background: rgba(255, 255, 255, 0.85);
     -moz-box-sizing: border-box;
   }
 
@@ -310,29 +306,29 @@
     margin: 1rem .5rem 1.5rem .5rem;
 
     border: 0;
-    border-radius: .3rem;
+    border-radius: 2rem;
 
     background-size: auto 100%;
   }
 
   #callbar-hang-up > .callbar-inner-button {
     margin: 1rem 0 1.5rem .5rem;
-    background: url('images/ActionIcon_40x40_hangup.png') center / 4rem no-repeat,
-                url('images/btn_hang_up.png') repeat-x;
+    background: url('images/actionicon_activecall_hangup.svg') center / 4rem no-repeat,
+                #de0000;
   }
 
   #callbar-hang-up:active > .callbar-inner-button {
-    background: url('images/ActionIcon_40x40_hangup.png') center / 4rem no-repeat,
-                #820000;
+    background: url('images/actionicon_activecall_hangup.svg') center / 4rem no-repeat,
+                #de0000;
   }
 
   #callbar-answer > .callbar-inner-button {
-    background: url('images/ActionIcon_40x40_pickup.png') center / 4rem no-repeat,
-                url('images/btn_pick_up.png') repeat-x;
+    background: url('images/pickup.svg') center / 4rem no-repeat,
+                #33CCCC;
   }
 
   #callbar-answer:active > .callbar-inner-button {
-    background: url('images/ActionIcon_40x40_pickup.png') center / 4rem no-repeat,
+    background: url('images/pickup.svg') center / 4rem no-repeat,
                 #4B780A;
   }
 
@@ -341,7 +337,6 @@
 
     color: #333;
     text-align: center;
-    text-shadow: 0.1rem 0.1rem 0 rgba(255,255,255,0.3);
     font-size: 1.8rem;
     font-weight: 700;
     line-height: 4rem;
@@ -416,7 +411,7 @@
     border: 0;
     position: relative;
     top: calc(50% - 2rem);
-    border-radius: .3rem;
+    border-radius: 2rem;
     background: url('images/ActionIcon_40x40_switchlines.png'),
                 url('images/btn_switchlines.png');
     background-size: 4rem, auto 100%;
@@ -444,7 +439,7 @@
   #calls.big-duration > section .numberWrapper,
   #calls.big-duration > section .additionalContactInfo,
   #calls.big-duration > section .switch-calls {
-    background: #01c5ed;
+    background: rgba(255,255,255,0.85);
     transition: background-color 0.3s linear;
   }
 
@@ -456,13 +451,14 @@
   #calls > section .numberWrapper .number {
     height: 2.5rem;
     padding: 2rem 0 0 0;
-    font-size: 2.5rem;
+    font-size: 3rem; /*2.5*/
     line-height: 1.5rem;
-    color: black;
+    color: #333;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: lighter;
+    font-style: italic;
   }
 
   #calls > section:not(.additionalInfo) .numberWrapper
@@ -493,7 +489,8 @@
     padding: 0 7rem 2rem 4rem;
     font-size: 1.6rem;
     line-height: 2rem;
-    color: white;
+    font-style: italic;
+    color: #333;
   }
 
   #calls.big-duration > section .additionalContactInfo {
@@ -519,7 +516,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    color: black;
+    color: #333;
     line-height: 6.6rem;
   }
 
@@ -543,14 +540,14 @@
   }
 
   #calls:not(.big-duration) > section.incoming {
-    background-image: url('images/incoming-call.png');
+    background-image: url('images/actionicon_callscreen_incomingcall.svg');
     background-size: 1.6rem;
     background-position: center left 1.5rem;
     background-repeat: no-repeat;
   }
 
   #calls:not(.big-duration) > section.outgoing {
-    background-image: url('images/outgoing-call.png');
+    background-image: url('images/actionicon_callscreen_outgoingcall.svg');
     background-size: 1.6rem;
     background-position: center left 1.5rem;
     background-repeat: no-repeat;
@@ -564,7 +561,7 @@
   #calls.big-duration > section.ended .numberWrapper,
   #calls.big-duration > section.ended .additionalContactInfo,
   #calls.big-duration > section.ended .switch-calls {
-    background-color: rgba(28, 24, 24, 0.7);
+    background-color: rgba(207, 64, 64, 0.9);
   }
 
   #calls:not(.big-duration) > section.held {
@@ -575,8 +572,10 @@
   }
 
   #calls > section.held .numberWrapper .number,
-  #calls > section.ended .numberWrapper .number {
-    color: white;
+  #calls > section.ended .numberWrapper .number,
+  #calls.big-duration > section.ended .additionalContactInfo,
+  #calls.big-duration > section.held .additionalContactInfo {
+    color: rgba(255,255,255,0.6);
   }
 
   #calls.big-duration > section.held .duration {
@@ -613,11 +612,13 @@
   }
 
   #calls.big-duration .handled-call.incoming .direction:before {
-    background-image: url('images/incoming_icon.png');
+    background-image: url('images/actionicon_callscreen_incomingcall.svg');
+    background-size: 3rem;
   }
 
   #calls.big-duration .handled-call.outgoing .direction:before {
-    background-image: url('images/outgoing_icon.png');
+    background-image: url('images/actionicon_callscreen_outgoingcall.svg');
+    background-size: 3rem;
   }
 
   #calls.big-duration .handled-call.held .direction:before {
@@ -656,11 +657,12 @@
 
   #incoming-info {
     position: relative;
-    background-color: rgba(0, 0, 0, 0.85);
-    background-image:  url('images/incoming_icon.png');
+    background-color: rgba(255, 255, 255, 0.85);
+    background-image:  url('images/actionicon_activecall_incomingcall.svg');
     background-position: top 1.5rem right 1.5rem;
     background-repeat: no-repeat;
     background-size: 2.2rem;
+    color: #333;
   }
 
   #incoming-container.displayed {
@@ -671,7 +673,7 @@
     height: 4rem;
     flex: 1;
     border:0;
-    border-radius:.3rem;
+    border-radius:2rem;
     display: block;
     font-size: 1.8rem;
     color: white;
@@ -679,21 +681,20 @@
     background-repeat: no-repeat, repeat-x;
   }
 
-  #incoming-container.hold-and-answer-only #incoming-end {
+  #incoming-container.hold-and-answer-only #incoming-end{
     display: none;
   }
 
   #incoming-answer {
-    background-image: url('images/ActionIcon_40x40_hold.png'),
-                      url('images/btn_resume.png');
-    background-size: 2.8rem, auto 100%;
+    background-image: url('images/actionicon_activecall_hold.svg'),
+                      #33cccc;
+    background-size: 4rem, auto 100%;
     margin-left: 1.5rem;
-    margin-right: 1.5rem;
   }
 
   #incoming-end {
-    background: url('images/ActionIcon_40x40_hangup.png'),
-                url('images/btn_hang_up.png');
+    background: url('images/actionicon_activecall_hangup.svg'),
+                #de0000;
     background-size: 4rem, auto 100%;
     margin-left: 1.5rem;
   }
@@ -701,7 +702,6 @@
   .incoming-number-info {
     padding: 1rem 4.5rem 0 1.5rem;
     height: 7rem;
-    border-bottom: 0.1rem #333030 solid;
     display: flex;
     flex-direction: column;
   }
@@ -722,7 +722,7 @@
   }
 
   #incoming-ignore {
-    background: linear-gradient(to top, #424040 1%, #676767 100%);
+    background-color: #333;
     margin: 1rem 1.5rem;
     width: calc(100% - 3rem);
   }
@@ -742,7 +742,7 @@
   }
 
   #group-call #group-show:active {
-    background-color: #00ABCC;
+    background-color: #33cccc;
     transition: background-color 0.2s ease;
   }
 
@@ -774,7 +774,7 @@
     float: right;
     width: 4.5rem;
     height: 4.5rem;
-    background: url(images/ActionIcon_40x40_hangup.png) no-repeat center center / 4rem;
+    background: url(images/actionicon_activecall_hangup.svg) no-repeat center center / 4rem;
   }
 
   #contact-background {
@@ -852,14 +852,13 @@
   #call-screen[data-layout="incoming-locked"] #calls {
     position: absolute;
     top: calc(100% - 17.1rem);
-    border-top: 0.1rem solid white;
     height: 7rem;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.85);
   }
 
   #call-screen[data-layout="incoming-locked"] #calls.big-duration .numberWrapper .number {
     width: calc(100% - 6rem);
-    color: #01c5ed;
+    color: #333;
     font-weight: normal;
   }
 
@@ -880,7 +879,6 @@
   #lockscreen-clock-time {
     margin: -0.6rem 0 -1rem -0.4rem;
     font-weight: 300;
-    border-top: solid 0.1rem rgba(255, 255, 255, 0.4);
     font-size: calc(26 * 0.226rem);
   }
 
@@ -944,7 +942,7 @@
     height: 2.2rem;
     padding-right: 2.6rem;
 
-    background-image:  url('images/incoming_icon.png');
+    background-image:  url('images/actionicon_callscreen_incomingcall.svg');
     background-position: top right;
     background-repeat: no-repeat;
     background-size: 2.2rem;
