@@ -1610,7 +1610,6 @@ function resetKeyboard() {
   // separately after this function
   isUpperCase = false;
   isUpperCaseLocked = false;
-  clearTouchedKeys();
 }
 
 // This is a wrapper around inputContext.sendKey()
@@ -1647,7 +1646,7 @@ function replaceSurroundingText(text, offset, length) {
 }
 
 // Set up the keyboard and its input method.
-// This is called when we get an event from mozKeyboard.
+// This is called when we get an event from mozInputMethod.
 // The state argument is the data passed with that event, and includes
 // the input field type, its inputmode, its content, and the cursor position.
 function showKeyboard() {
@@ -1969,6 +1968,7 @@ function clearTouchedKeys() {
     }
   }
 
+  hideAlternatives();
   touchedKeys = {};
 }
 /*

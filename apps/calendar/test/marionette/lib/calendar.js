@@ -13,9 +13,7 @@ function Calendar(client) {
   this.client = client.scope({ searchTimeout: 5000 });
   this.actions = new Marionette.Actions(this.client);
 
-  // Initialize our view remotes. Keep the top-level
-  // views private so that we can sneakily navigate to
-  // them when they're requested.
+  // Initialize our view remotes.
   this.advancedSettings = new AdvancedSettings(client);
   this.day = new Day(client);
   this.editEvent = new EditEvent(client);
@@ -128,11 +126,11 @@ Calendar.prototype = {
     editEvent.startTime = startDate;
     editEvent.endDate = endDate;
     editEvent.endTime = endDate;
-    // TODO(gareth)
-    // editEvent.reminders = opts.reminders || [];
+    editEvent.reminders = opts.reminders || [];
     editEvent.save();
 
     this.waitForKeyboardHide();
+    editEvent.waitForHide();
     return this;
   },
 

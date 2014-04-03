@@ -1,7 +1,6 @@
 apps/bluetooth/js/deviceList.js
 apps/bluetooth/js/transfer.js
 apps/browser/js/authentication_dialog.js
-apps/browser/js/awesomescreen.js
 apps/browser/js/browser.js
 apps/browser/js/browser_db.js
 apps/browser/js/modal_dialog.js
@@ -17,15 +16,6 @@ apps/browser/test/marionette/navigate_test.js
 apps/browser/test/marionette/settings_test.js
 apps/browser/test/marionette/share_url_test.js
 apps/browser/test/unit/browser_db_test.js
-apps/calendar/js/controllers/alarm.js
-apps/calendar/js/controllers/error.js
-apps/calendar/js/controllers/recurring_events.js
-apps/calendar/js/controllers/service.js
-apps/calendar/js/controllers/sync.js
-apps/calendar/js/controllers/time.js
-apps/calendar/js/models/account.js
-apps/calendar/js/models/calendar.js
-apps/calendar/js/models/event.js
 apps/camera/build/configure.js
 apps/camera/js/startup.js
 apps/camera/js/views/viewfinder.js
@@ -714,8 +704,3 @@ shared/js/simple_phone_matcher.js
 shared/js/tag_visibility_monitor.js
 shared/js/visibility_monitor.js
 shared/resources/apn/query.js
-shared/test/integration/profile.js
-shared/test/integration/profile_builder.js
-shared/test/integration/server.js
-shared/test/integration/server_child.js
-shared/test/integration/setup.js
