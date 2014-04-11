@@ -122,31 +122,6 @@ suite('calls handler', function() {
         MockNavigatorMozTelephony.mTriggerCallsChanged();
         assert.isTrue(toDefaultSpy.calledOnce);
       });
-
-      suite('> call isn\'t picked up', function() {
-        setup(function() {
-          MockNavigatorMozTelephony.mTriggerCallsChanged();
-          MockNavigatorMozTelephony.calls = [];
-          MockNavigatorMozTelephony.mTriggerCallsChanged();
-          var windowOpener = {postMessage: function() {}};
-          Object.defineProperty(window, 'opener', {
-            configurable: true,
-            get: function() {
-              return windowOpener;
-            }
-          });
-          this.sinon.spy(window.opener, 'postMessage');
-          mockCall._disconnect();
-        });
-
-        test('should notify the user', function() {
-          sinon.assert.calledWith(window.opener.postMessage, {
-            type: 'notification',
-            number: mockCall.number,
-            serviceId: mockCall.serviceId
-          });
-        });
-      });
     });
 
     suite('> hanging up the last incoming call', function() {
@@ -1263,7 +1238,7 @@ suite('calls handler', function() {
     });
 
     suite('> CallsHandler.switchToSpeaker', function() {
-      test('should turn off bluetooth', function() {
+      test('should disconnect bluetooth SCO', function() {
         var disconnectScoSpy = this.sinon.spy(
           MockBluetoothHelperInstance, 'disconnectSco');
         CallsHandler.switchToSpeaker();
@@ -1277,11 +1252,18 @@ suite('calls handler', function() {
     });
 
     suite('> CallsHandler.switchToDefaultOut', function() {
-      test('should turn on bluetooth', function() {
+      test('should connect bluetooth SCO', function() {
         var connectScoSpy = this.sinon.spy(
           MockBluetoothHelperInstance, 'connectSco');
         CallsHandler.switchToDefaultOut();
         assert.isTrue(connectScoSpy.calledOnce);
+      });
+
+      test('should not connect bluetooth SCO', function() {
+        var connectScoSpy = this.sinon.spy(
+          MockBluetoothHelperInstance, 'connectSco');
+        CallsHandler.switchToDefaultOut(true /* do not connect */);
+        assert.isTrue(connectScoSpy.notCalled);
       });
 
       test('should disable the speaker', function() {
@@ -1291,7 +1273,7 @@ suite('calls handler', function() {
     });
 
     suite('> CallsHandler.switchToReceiver', function() {
-      test('should turn off bluetooth', function() {
+      test('should disconnect bluetooth SCO', function() {
         var disconnectScoSpy = this.sinon.spy(
           MockBluetoothHelperInstance, 'disconnectSco');
         CallsHandler.switchToReceiver();

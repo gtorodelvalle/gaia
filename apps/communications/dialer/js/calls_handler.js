@@ -54,7 +54,8 @@ var CallsHandler = (function callsHandler() {
     if (acm) {
       acm.addEventListener('headphoneschange', function onheadphoneschange() {
         if (acm.headphones) {
-          CallScreen.switchToDefaultOut();
+          // Do not connect bluetooth SCO if headphone is plugged in
+          CallScreen.switchToDefaultOut(true /* do not connect */);
         }
       });
     }
@@ -145,7 +146,16 @@ var CallsHandler = (function callsHandler() {
     // First incoming or outgoing call, reset mute and speaker.
     if (handledCalls.length == 0) {
       CallScreen.unmute();
-      CallScreen.switchToDefaultOut();
+
+      /**
+       * Do not connect bluetooth SCO for first incoming/outgoing call.
+       *
+       * Bluetooth certification test requires SCO be connected after
+       * user answers incoming call. Gecko bluetooth would connect SCO
+       * automatically once 1) user answers incoming call or
+       * 2) user dials outgoing call.
+       */
+      CallScreen.switchToDefaultOut(true /* do not connect */);
     }
 
     // Find an available node for displaying the call
@@ -154,19 +164,6 @@ var CallsHandler = (function callsHandler() {
     CallScreen.insertCall(hc.node);
 
     if (call.state === 'incoming') {
-      call.addEventListener('statechange', function callStateChange() {
-        call.removeEventListener('statechange', callStateChange);
-        // The call wasn't picked up
-        if (call.state == 'disconnected') {
-          var callInfo = {
-            type: 'notification',
-            number: call.number,
-            serviceId: call.serviceId
-          };
-          postToMainWindow(callInfo);
-        }
-      });
-
       // This is the initial incoming call, need to ring !
       if (handledCalls.length === 1) {
         handleFirstIncoming(call);
@@ -659,13 +656,16 @@ var CallsHandler = (function callsHandler() {
     }
   }
 
-  function switchToDefaultOut() {
+  function switchToDefaultOut(doNotConnect) {
     if (telephony.speakerEnabled) {
       telephony.speakerEnabled = false;
     }
-    // add a btHelper.isConnected() check before calling disconnectSco
-    // once bug 929376 lands.
-    btHelper.connectSco();
+
+    if (!doNotConnect) {
+      // add a btHelper.isConnected() check before calling disconnectSco
+      // once bug 929376 lands.
+      btHelper.connectSco();
+    }
   }
 
   function switchToReceiver() {
@@ -687,15 +687,6 @@ var CallsHandler = (function callsHandler() {
     } else {
       CallsHandler.switchToSpeaker();
     }
-  }
-
-  /* === Recents management === */
-  function addRecentEntry(entry) {
-    var message = {
-      type: 'recent',
-      entry: entry
-    };
-    postToMainWindow(message);
   }
 
   /**
@@ -780,7 +771,6 @@ var CallsHandler = (function callsHandler() {
     switchToSpeaker: switchToSpeaker,
     switchToDefaultOut: switchToDefaultOut,
 
-    addRecentEntry: addRecentEntry,
     checkCalls: onCallsChanged,
     mergeActiveCallWith: mergeActiveCallWith,
     mergeConferenceGroupWithActiveCall: mergeConferenceGroupWithActiveCall,
