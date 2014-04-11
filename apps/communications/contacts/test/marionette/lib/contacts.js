@@ -19,6 +19,9 @@ Contacts.config = {
   settings: {
     // disable keyboard ftu because it blocks our display
     'keyboard.ftu.enabled': false
+  },
+  prefs: {
+    'dom.w3c_touch_events.enabled': 1
   }
 };
 
@@ -113,8 +116,7 @@ Contacts.prototype = {
   },
 
   waitForSlideDown: function(element) {
-    var bodyHeight = this.client.findElement(Contacts.Selectors.body).
-      size().height;
+    var bodyHeight = this.getWindowHeight();
     var test = function() {
       return element.location().y >= bodyHeight;
     };
@@ -129,7 +131,7 @@ Contacts.prototype = {
   },
 
   waitForFormShown: function() {
-    var form = this.client.helper.waitForElement(Contacts.Selectors.form),
+    var form = this.client.findElement(Contacts.Selectors.form),
         location;
     var test = function() {
       location = form.location();
@@ -140,7 +142,7 @@ Contacts.prototype = {
 
   waitForFormTransition: function() {
     var selectors = Contacts.Selectors,
-        bodyHeight = this.client.findElement(selectors.body).size().height,
+        bodyHeight = this.getWindowHeight(),
         form = this.client.findElement(selectors.form);
     var test = function() {
       var location = form.location();
@@ -162,13 +164,28 @@ Contacts.prototype = {
 
     for (var i in details) {
       // Camelcase details to match form.* selectors.
-      var key = 'form' + i.charAt(0).toUpperCase() + i.slice(1);
+      var fieldSelector = 'form' + i.charAt(0).toUpperCase() + i.slice(1);
 
-      this.client.findElement(selectors[key])
-        .sendKeys(details[i]);
+      var field = this.client.helper.waitForElement(selectors[fieldSelector]);
+      field.sendKeys(details[i]);
     }
 
-    this.client.findElement(selectors.formSave).click();
+    var save = this.client.findElement(selectors.formSave),
+        form = this.client.findElement(selectors.form),
+        formTitle = this.client.findElement(selectors.formTitle),
+        givenName = this.client.findElement(selectors.formGivenName),
+        formY = form.location().y;
+    var formIsMoving = function() {
+      if (form.location().y !== formY) {
+        return true;
+      }
+      givenName.tap();
+      formTitle.tap();
+      if (save.enabled()) {
+        save.click();
+      }
+    };
+    this.client.waitFor(formIsMoving);
 
     this.waitForFormTransition();
   },
@@ -176,8 +193,8 @@ Contacts.prototype = {
   addContact: function(details) {
     var selectors = Contacts.Selectors;
 
-    var addContact = this.client.findElement(selectors.formNew);
-    addContact.click();
+    var addContact = this.client.helper.waitForElement(selectors.formNew);
+    this.clickOn(addContact);
 
     this.enterContactDetails(details);
 
@@ -188,7 +205,7 @@ Contacts.prototype = {
    * Helper method to simulate clicks on iFrames which is not currently
    *  working in the Marionette JS Runner.
    * @param {Marionette.Element} element The element to simulate the click on.
-   **/
+   */
   clickOn: function(element) {
     element.scriptWith(function(elementEl) {
       var event = new MouseEvent('click', {
@@ -198,6 +215,23 @@ Contacts.prototype = {
       });
       elementEl.dispatchEvent(event);
     });
+  },
+
+  getWindowHeight: function() {
+    if (this.windowHeight) {
+      return this.windowHeight;
+    }
+    var getWindowHeight = function() {
+      return Math.max(document.documentElement.clientHeight,
+                      window.innerHeight || 0);
+    };
+    var callback = function (err, value) {
+      if (!err) {
+        this.windowHeight = value;
+      }
+    };
+    this.client.executeScript(getWindowHeight, callback.bind(this));
+    return this.windowHeight;
   }
 };
 
