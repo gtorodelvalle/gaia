@@ -3,6 +3,15 @@
  *  and dialer/js/keypad.js. Be sure to update both file when you commit!
  *
  */
+button {
+  border: 0;
+  background: none;
+}
+
+button::-moz-focus-inner {
+  border:0;
+  outline:none;
+}
 
 button::-moz-focus-inner {
   border:0;
@@ -12,6 +21,7 @@ button::-moz-focus-inner {
 #fake-phone-number-view {
   font-size: 3rem;
   position: absolute;
+  left: 0;
   line-height: 0;
   visibility: hidden;
 }
@@ -21,12 +31,17 @@ button::-moz-focus-inner {
   height: 28%;
   background: #3cc;
   text-align: center;
-  display: table;
-  table-layout: fixed;
+  display: flex;
   border-spacing: 1.6rem;
   font-weight: 300;
   overflow: hidden;
+}
+
+#phone-number-view-container > div {
+  margin-bottom: 4.5rem;
   display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
 }
 
 #phone-number-view-container.keypad-visible {
@@ -45,14 +60,11 @@ button::-moz-focus-inner {
 }
 
 #keypad-delete {
-  text-align: center;
-  width: 4.4rem;
+  width: 10rem;
+  margin-bottom: 4.5rem;
+  padding: 0;
   visibility: hidden;
-  height: calc(100% - 4.5rem);
-  display: flex;
-  align-items: center;
-  padding-right: 1.4rem;
-  background-color: transparent;
+  background: url('images/dialer_icon_delete.svg') no-repeat scroll center center / 3rem 2rem transparent;
 }
 
 li:not(:target) #keypad-delete,
@@ -60,15 +72,7 @@ article:not(:target) #keypad-delete {
   display: none;
 }
 
-#keypad-delete > div {
-  width: 3rem;
-  height: 2rem;
-  background: url('images/dialer_icon_delete.svg');
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-#keypad-delete:active > div {
+#keypad-delete:active {
   opacity: 0.6;
 }
 
@@ -87,16 +91,8 @@ article:not(:target) #keypad-delete {
   table-layout: fixed;
 }
 
-.keypad-cell {
+.keypad-row {
   display: table-row;
-}
-
-.keypad-key:first-child {
-  border-left: 0;
-}
-
-.keypad-key:last-child {
-  border-right: 0;
 }
 
 .keypad-key {
@@ -145,11 +141,6 @@ article:not(:target) #keypad-delete {
   pointer-events: none;
 }
 
-.keypad-key-centered {
-  padding: 0.9rem 0 0 0;
-  text-align: center;
-}
-
 .keypad-key .font-size-plus {
   font-size: 2rem;
 }
@@ -175,15 +166,16 @@ article:not(:target) #keypad-delete {
 .asterisk {
   font-size: 4rem;
   width: 4rem;
-  margin: auto 1.2rem;
-  position: relative;
-  top: 1.2rem;
+  margin-top: 2rem;
+  margin-left: 0.3rem;
 }
 /*changes*/
 .sharp {
   font-size: 4rem;
   width: 4rem;
-  margin: auto 1.2rem;
+  line-height: 0;
+  margin-top: -0.2rem;
+  margin-left: 0.2rem;
 }
 
 #keypad-callbar {
@@ -193,14 +185,13 @@ article:not(:target) #keypad-delete {
   flex-direction: row;
   align-items: center;
   width: 100%;
-  border-spacing: 0.8rem 0.8rem;
   border-bottom: 0;
   border-left: 0;
   -moz-box-sizing: border-box;
 }
 
-#keypad-callbar-add-contact,
-#keypad-callbar-cancel {
+#keypad-callbar-cancel,
+.keypad-callbar-button {
   position: relative;
   width: 9rem;
   background: #e7e7e7;
@@ -208,7 +199,6 @@ article:not(:target) #keypad-delete {
   border-radius: 3rem;
   margin: 0.8rem 0.5rem 0.8rem 1.5rem;
   overflow: hidden;
-  border: none;
   height: 4rem;
 }
 
@@ -249,7 +239,6 @@ article:not(:target) #keypad-delete {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 4rem 4rem;
-  border: 0;
   border-radius: 3rem;
   margin: 0.8rem 1.5rem 0.8rem 0.5rem;
   height: 4rem;
@@ -275,24 +264,15 @@ article:not(:target) #keypad-delete {
   opacity: 0.4;
 }
 
-.icon-add-contact[disabled] {
-  opacity: 1;
-}
-
 .icon-add-contact:active::before {
   background-image: url("images/addcontact_active.svg");
-}
-
-.icon-add-contact[disabled]:active::before {
-  background-image: url("images/addcontact.svg");
 }
 
 .js-sim-indication {
   display: none;
   font-size: 1.3rem;
   text-align: right;
-  width: calc( 100% - 0.7rem );
-  padding-right: 0.7rem;
+  margin-right: 0.6rem;
   color: #fff;
 }
 
@@ -414,7 +394,7 @@ article:not(:target) #keypad-delete {
 }
 
 #suggestion-bar > .suggestion-item {
-  height: 4.5rem;
+  height: 3.6rem;
   padding: 0.2rem;
   margin-right: 5.3rem;
   margin-left: 0.5rem;
