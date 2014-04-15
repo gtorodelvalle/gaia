@@ -59,6 +59,7 @@ function HandledCall(aCall) {
     var durationMessage = (this.call.state == 'incoming') ?
                            _('incoming') : _('connecting');
     this.durationChildNode.textContent = durationMessage;
+    this.updateDirection();
 
     if (navigator.mozIccManager.iccIds.length > 1) {
       var n = this.call.serviceId + 1;
@@ -69,8 +70,6 @@ function HandledCall(aCall) {
       this.simNumberNode.hidden = true;
     }
   }).bind(this));
-
-  this.updateDirection();
 
   // Some calls might be already connected
   if (this._initialState === 'connected') {
