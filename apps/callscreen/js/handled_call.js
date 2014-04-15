@@ -52,6 +52,7 @@ function HandledCall(aCall) {
     var durationMessage = (this.call.state == 'incoming') ?
                            _('incoming') : _('connecting');
     this.durationChildNode.textContent = durationMessage;
+    this.updateDirection();
 
     if (navigator.mozIccManager.iccIds.length > 1) {
       var n = this.call.serviceId + 1;
@@ -62,8 +63,6 @@ function HandledCall(aCall) {
       this.simNumberNode.hidden = true;
     }
   }).bind(this));
-
-  this.updateDirection();
 
   // Some calls might be already connected
   if (this._initialState === 'connected') {
@@ -229,7 +228,7 @@ HandledCall.prototype.restoreAdditionalContactInfo =
 };
 
 HandledCall.prototype.formatPhoneNumber =
-  function hc_formatPhoneNumber(ellipsisSide, maxFontSize) {
+  function hc_formatPhoneNumber(ellipsisSide, maxFontSize, isCallWaiting) {
     // In status bar mode, we want a fixed font-size
     if (CallScreen.inStatusBarMode) {
       this.numberNode.style.fontSize = '';
@@ -241,7 +240,11 @@ HandledCall.prototype.formatPhoneNumber =
 
     var newFontSize;
     if (maxFontSize) {
-      newFontSize = KeypadManager.maxFontSize;
+      if (isCallWaiting) {
+        newFontSize = KeypadManager.maxFontSizeCallWaiting;
+      } else {
+       newFontSize = KeypadManager.maxFontSize;
+      }
     } else {
       newFontSize =
         Utils.getNextFontSize(view, fakeView, KeypadManager.maxFontSize,
@@ -258,9 +261,9 @@ HandledCall.prototype.replacePhoneNumber =
 };
 
 HandledCall.prototype.restorePhoneNumber =
-  function hc_restorePhoneNumber() {
+  function hc_restorePhoneNumber(isCallWaiting) {
     this.numberNode.textContent = this._cachedInfo;
-    this.formatPhoneNumber('end', true);
+    this.formatPhoneNumber('end', true, isCallWaiting);
 };
 
 HandledCall.prototype.updateDirection = function hc_updateDirection() {
