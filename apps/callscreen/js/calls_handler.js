@@ -251,6 +251,7 @@ var CallsHandler = (function callsHandler() {
       Contacts.findByNumber(number,
                             function lookupContact(contact, matchingTel) {
         if (contact && contact.name) {
+          CallScreen.incomingInfo.classList.add('additionalInfo');
           CallScreen.incomingNumber.textContent = contact.name;
           CallScreen.incomingNumberAdditionalInfo.textContent =
             Utils.getPhoneNumberAdditionalInfo(matchingTel);
@@ -753,4 +754,3 @@ var CallsHandler = (function callsHandler() {
     }
   };
 })();
-

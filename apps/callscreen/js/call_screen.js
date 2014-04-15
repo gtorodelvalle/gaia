@@ -38,6 +38,7 @@ var CallScreen = {
   hideGroupButton: document.getElementById('group-hide'),
 
   incomingContainer: document.getElementById('incoming-container'),
+  incomingInfo: document.getElementById('incoming-info'),
   incomingNumber: document.getElementById('incoming-number'),
   incomingSim: document.getElementById('incoming-sim'),
   incomingNumberAdditionalInfo:
