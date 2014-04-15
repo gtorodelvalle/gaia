@@ -80,7 +80,6 @@ article:not(:target) #keypad-delete {
 }
 
 #keypad {
-  background: #fff;
   height: 80%;
   width: 100%;
   display: table;
@@ -105,8 +104,9 @@ article:not(:target) #keypad-delete {
 }
 
 .keypad-key span {
-  width: 2rem;
+  width: 1.5rem;
   display: inline-block;
+  overflow: visible;
 }
 
 .keypad-key em {
@@ -160,18 +160,16 @@ article:not(:target) #keypad-delete {
 }
 
 .asterisk {
-  font-size: 4rem;
-  width: 4rem;
-  margin-top: 2rem;
   margin-left: 0.3rem;
+  overflow: visible;
+  position: relative;
+  top: 1.25rem;
 }
 
 .sharp {
-  font-size: 4rem;
-  width: 4rem;
   line-height: 0;
-  margin-top: -0.2rem;
-  margin-left: 0.2rem;
+  margin-top: -0.6rem;
+  overflow: visible;
 }
 
 #keypad-callbar {
@@ -291,11 +289,7 @@ article:not(:target) #keypad-delete {
 }
 
 #keypad-hidebar {
-  background: rgba(24,24,24,.92);
-  border: solid 0.1rem rgba(255, 255, 255, 0.2);
-  border-right-color: rgba(0, 0, 0, 0.4);
-  border-bottom-color: rgba(0, 0, 0, 0.4);
-  border-left: 0;
+  border: 0;
   -moz-box-sizing: border-box;
 }
 
@@ -313,24 +307,24 @@ article:not(:target) #keypad-delete {
 .keypad-hidebar-button {
   height: 4rem;
   border: 0;
-  border-radius:.3rem;
+  border-radius: 2rem;
   display: block;
 }
 
 #keypad-hidebar-hang-up-action {
-  background: url('keypad/images/btn_hang_up.png') repeat-x;
   background-size: auto 100%;
   opacity: 1.0;
   margin: 1rem .5rem 1.5rem 1.5rem;
+  background: #e00000;
 }
 
 #keypad-hidebar-hang-up-action:active {
-  background: #820000;
+  background: #ff5933;
 }
 
 #keypad-hidebar-hang-up-action > div {
   margin: 0 auto;
-  background-image: url('keypad/images/ActionIcon_40x40_hangup.png');
+  background-image: url('keypad/images/actionicon_activecall_hangup.svg');
   background-repeat: no-repeat;
   background-size: 4rem 4rem;
   background-position: center;
@@ -339,24 +333,28 @@ article:not(:target) #keypad-delete {
 }
 
 #keypad-hidebar-hide-keypad-action {
-  background: url('keypad/images/btn_generic.png') repeat-x;
   background-size: auto 100%;
   opacity: 1.0;
   margin: 1rem 1.5rem 1.5rem .5rem;
+  background: #e7e7e7;
 }
 
 #keypad-hidebar-hide-keypad-action:active {
-  background: #333333;
+  background: #b2f2ff;
 }
 
 #keypad-hidebar-hide-keypad-action > div {
   margin: -moz-calc((4rem - 3rem)/2) auto;
-  background-image: url('keypad/images/ActionIcons_40x40_dismiss_keyboard.png');
+  background-image: url('keypad/images/actionicon_activecall_dismisskeyboard.svg');
   background-repeat: no-repeat;
   background-size: 4rem 4rem;
   background-position: center;
   width: 3rem;
   height: 3rem;
+}
+
+#keypad-hidebar-hide-keypad-action:active > div {
+ background-image: url('keypad/images/actionicon_activecall_dismisskeyboard_hitstate.png'); 
 }
 
 .phone-number-font {
