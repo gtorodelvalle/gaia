@@ -15,6 +15,7 @@ var ValuePicker = (function() {
     this._upper = unitStyle.valueDisplayedText.length - 1;
     this._range = unitStyle.valueDisplayedText.length;
     this._currentIndex = 0;
+    this._selected = 0;
     this.init();
   }
 
@@ -138,6 +139,10 @@ var ValuePicker = (function() {
       this.container.setAttribute('aria-valuetext',
                                   this._valueDisplayedText[index]);
     }
+    var element_children = this.element.children;
+    element_children[this._selected].classList.remove('selected');
+    element_children[index].classList.add('selected');
+    this._selected = index;
   };
 
   VP.prototype.addEventListeners = function() {
@@ -235,9 +240,6 @@ var ValuePicker = (function() {
     event.stopPropagation();
     this.removeEventListeners();
 
-    // Add animation back
-    this.element.classList.add('animation-on');
-
     // Add momentum if speed is higher than a given threshold.
     if (Math.abs(currentSpeed) > SPEED_THRESHOLD) {
       var direction = currentSpeed > 0 ? 1 : -1;
@@ -249,9 +251,6 @@ var ValuePicker = (function() {
 
   function vp_mousedown(event) {
     event.stopPropagation();
-
-    // Stop animation
-    this.element.classList.remove('animation-on');
 
     startEvent = currentEvent = cloneEvent(event);
     tunedIndex = this._currentIndex;
