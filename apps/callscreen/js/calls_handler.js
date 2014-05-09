@@ -237,6 +237,8 @@ var CallsHandler = (function callsHandler() {
 
       if (!number) {
         CallScreen.incomingNumber.textContent = _('withheld-number');
+        KeypadManager.formatPhoneNumber('end', false,
+          CallScreen.incomingNumber, CallScreen.fakeIncomingNumber, true);
         return;
       }
 
@@ -250,13 +252,18 @@ var CallsHandler = (function callsHandler() {
       Contacts.findByNumber(number,
                             function lookupContact(contact, matchingTel) {
         if (contact && contact.name) {
+          CallScreen.incomingInfo.classList.add('additionalInfo');
           CallScreen.incomingNumber.textContent = contact.name;
+          KeypadManager.formatPhoneNumber('end', false,
+            CallScreen.incomingNumber, CallScreen.fakeIncomingNumber, true);
           CallScreen.incomingNumberAdditionalInfo.textContent =
             Utils.getPhoneNumberAdditionalInfo(matchingTel);
           return;
         }
 
         CallScreen.incomingNumber.textContent = number;
+        KeypadManager.formatPhoneNumber('end', false,
+          CallScreen.incomingNumber, CallScreen.fakeIncomingNumber, true);
         CallScreen.incomingNumberAdditionalInfo.textContent = '';
       });
     });
@@ -310,9 +317,9 @@ var CallsHandler = (function callsHandler() {
     window.close();
   }
 
-  function updateAllPhoneNumberDisplays() {
+  function updateAllPhoneNumberDisplays(visibleCalls) {
     handledCalls.forEach(function(call) {
-      call.restorePhoneNumber();
+      call.restorePhoneNumber(visibleCalls);
     });
   }
   window.addEventListener('resize', updateAllPhoneNumberDisplays);
@@ -751,4 +758,3 @@ var CallsHandler = (function callsHandler() {
     }
   };
 })();
-
