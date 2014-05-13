@@ -27,9 +27,20 @@
     line-height: 8rem;
    }
 
+   #calls:not(.big-duration) > section.ended .duration .font-light {
+     line-height: 1.7rem;
+   }
+
   #calls:not(.big-duration) .duration .total-duration {
     display: none;
     font-weight: normal;
+  }
+
+  #calls:not(.big-duration) > section.ended .duration .total-duration {
+    display: block;
+    padding: 0;
+    line-height: 1.7rem;
+    text-align: right;
   }
 
   button::-moz-focus-inner {
@@ -563,7 +574,7 @@
     top: 0;
     color: #333;
     height: 7.5rem;
-    margin-top: 2rem;
+    line-height: 7.5rem;
   }
 
   #calls.big-duration > section .duration {
@@ -703,17 +714,12 @@
   }
 
   #calls:not(.big-duration) > section.ended .duration {
-    padding-left: 4rem;
-    left: 0;
+    line-height: 0;
+    margin-top: 2.05rem;
   }
 
   #calls:not(.big-duration) > section:not(.additionalInfo):not(.ended) .duration .font-light {
     line-height: 3.5rem;
-  }
-
-  #calls:not(.big-duration) > section.ended .numberWrapper,
-  #calls:not(.big-duration) > section.ended .additionalContactInfo {
-    display: none;
   }
 
   #incoming-container {
