@@ -238,6 +238,8 @@ var CallsHandler = (function callsHandler() {
 
       if (!number) {
         CallScreen.incomingNumber.textContent = _('withheld-number');
+        KeypadManager.formatPhoneNumber('end', false,
+          CallScreen.incomingNumber, CallScreen.fakeIncomingNumber);
         return;
       }
 
@@ -253,12 +255,16 @@ var CallsHandler = (function callsHandler() {
         if (contact && contact.name) {
           CallScreen.incomingInfo.classList.add('additionalInfo');
           CallScreen.incomingNumber.textContent = contact.name;
+          KeypadManager.formatPhoneNumber('end', false,
+            CallScreen.incomingNumber, CallScreen.fakeIncomingNumber);
           CallScreen.incomingNumberAdditionalInfo.textContent =
             Utils.getPhoneNumberAdditionalInfo(matchingTel);
           return;
         }
 
         CallScreen.incomingNumber.textContent = number;
+        KeypadManager.formatPhoneNumber('end', false,
+          CallScreen.incomingNumber, CallScreen.fakeIncomingNumber);
         CallScreen.incomingNumberAdditionalInfo.textContent = '';
       });
     });

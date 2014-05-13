@@ -6,7 +6,7 @@
 
 'use strict';
 
-var kFontStep = 4;
+var kFontStep = 1;
 
 // Frequencies coming from http://en.wikipedia.org/wiki/Telephone_keypad
 var gTonesFrequencies = {
@@ -67,8 +67,10 @@ DtmfTone.kShortToneLength = 120;
 
 var KeypadManager = {
 
-  _MAX_FONT_SIZE_DIAL_PAD: 18,
-  _MAX_FONT_SIZE_ON_CALL: 16,
+  _MAX_FONT_SIZE_DIAL_PAD: 4.1,
+  _MIN_FONT_SIZE_DIAL_PAD: 2.6,
+  _MAX_FONT_SIZE_ON_CALL: 3.4,
+  _MIN_FONT_SIZE_ON_CALL: 2.3,
 
   _phoneNumber: '',
   _onCall: false,
@@ -80,70 +82,82 @@ var KeypadManager = {
 
   get phoneNumberView() {
     delete this.phoneNumberView;
-    return this.phoneNumberView = document.getElementById('phone-number-view');
+    this.phoneNumberView = document.getElementById('phone-number-view');
+    return this.phoneNumberView;
   },
 
   get fakePhoneNumberView() {
     delete this.fakePhoneNumberView;
-    return this.fakePhoneNumberView =
+    this.fakePhoneNumberView =
       document.getElementById('fake-phone-number-view');
+    return this.fakePhoneNumberView;
   },
 
   get phoneNumberViewContainer() {
     delete this.phoneNumberViewContainer;
-    return this.phoneNumberViewContainer =
+    this.phoneNumberViewContainer =
       document.getElementById('phone-number-view-container');
+    return this.phoneNumberViewContainer;
   },
 
   get keypad() {
     delete this.keypad;
-    return this.keypad = document.getElementById('keypad');
+    this.keypad = document.getElementById('keypad');
+    return this.keypad;
   },
 
   get callBar() {
     delete this.callBar;
-    return this.callBar =
+    this.callBar =
       document.getElementById('keypad-callbar');
+    return this.callBar;
   },
 
   get hideBar() {
     delete this.hideBar;
-    return this.hideBar = document.getElementById('keypad-hidebar');
+    this.hideBar = document.getElementById('keypad-hidebar');
+    return this.hideBar;
   },
 
   get callBarAddContact() {
     delete this.callBarAddContact;
-    return this.callBarAddContact =
+    this.callBarAddContact =
       document.getElementById('keypad-callbar-add-contact');
+    return this.callBarAddContact;
   },
 
   get callBarCallAction() {
     delete this.callBarCallAction;
-    return this.callBarCallAction =
+    this.callBarCallAction =
       document.getElementById('keypad-callbar-call-action');
+    return this.callBarCallAction;
   },
 
   get callBarCancelAction() {
     delete this.callBarCancelAction;
-    return this.callBarCancelAction =
+    this.callBarCancelAction =
       document.getElementById('keypad-callbar-cancel');
+    return this.callBarCancelAction;
   },
 
   get deleteButton() {
     delete this.deleteButton;
-    return this.deleteButton = document.getElementById('keypad-delete');
+    this.deleteButton = document.getElementById('keypad-delete');
+    return this.deleteButton;
   },
 
   get hideBarHangUpAction() {
     delete this.hideBarHangUpAction;
-    return this.hideBarHangUpAction =
+    this.hideBarHangUpAction =
       document.getElementById('keypad-hidebar-hang-up-action-wrapper');
+    return this.hideBarHangUpAction;
   },
 
   get hideBarHideAction() {
     delete this.hideBarHideAction;
-    return this.hideBarHideAction =
+    this.hideBarHideAction =
       document.getElementById('keypad-hidebar-hide-keypad-action');
+    return this.hideBarHideAction;
   },
 
   multiSimActionButton: null,
@@ -157,14 +171,15 @@ var KeypadManager = {
     // 10pt. First off, we convert it to px multiplying it 0.226 times,
     // then we convert it to rem multiplying it a number of times equal
     // to the font-size property of the body element.
-    var defaultFontSize = window.getComputedStyle(document.body, null)
-                                .getPropertyValue('font-size');
-    this.minFontSize = parseInt(parseInt(defaultFontSize) * 10 * 0.226);
+    var defaultFontSize = parseInt(window.getComputedStyle(document.body, null)
+      .getPropertyValue('font-size'));
+
+    this.minFontSize = this._onCall ?
+      parseInt(defaultFontSize * this._MIN_FONT_SIZE_ON_CALL) :
+      parseInt(defaultFontSize * this._MIN_FONT_SIZE_DIAL_PAD);
     this.maxFontSize = this._onCall ?
-      parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_ON_CALL *
-        0.226) :
-      parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_DIAL_PAD *
-        0.226);
+      parseInt(defaultFontSize * this._MAX_FONT_SIZE_ON_CALL) :
+      parseInt(defaultFontSize * this._MAX_FONT_SIZE_DIAL_PAD);
 
     this.phoneNumberView.value = '';
     this._phoneNumber = '';
@@ -326,9 +341,10 @@ var KeypadManager = {
     CallsHandler.end();
   },
 
-  formatPhoneNumber: function kh_formatPhoneNumber(ellipsisSide, maxFontSize) {
-    var fakeView = this.fakePhoneNumberView;
-    var view = this.phoneNumberView;
+  formatPhoneNumber: function kh_formatPhoneNumber(ellipsisSide, maxFontSize,
+    view, fakeView) {
+    fakeView = fakeView || this.fakePhoneNumberView;
+    view = view || this.phoneNumberView;
 
     // We consider the case where the delete button may have
     // been used to delete the whole phone number.
@@ -345,7 +361,10 @@ var KeypadManager = {
         Utils.getNextFontSize(view, fakeView, this.maxFontSize,
           this.minFontSize, kFontStep);
     }
-    view.style.fontSize = newFontSize + 'px';
+    if (view.style.fontSize !== this.minFontSize &&
+      view.style.fontSize !== newFontSize) {
+      view.style.fontSize = newFontSize + 'px';
+    }
     Utils.addEllipsis(view, fakeView, ellipsisSide);
   },
 
