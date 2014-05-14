@@ -40,6 +40,7 @@ var CallScreen = {
   incomingContainer: document.getElementById('incoming-container'),
   incomingInfo: document.getElementById('incoming-info'),
   incomingNumber: document.getElementById('incoming-number'),
+  fakeIncomingNumber: document.getElementById('fake-incoming-number'),
   incomingSim: document.getElementById('incoming-sim'),
   incomingNumberAdditionalInfo:
     document.getElementById('incoming-number-additional-info'),
