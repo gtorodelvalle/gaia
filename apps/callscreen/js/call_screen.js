@@ -73,7 +73,7 @@ var CallScreen = {
       (this.calls.querySelectorAll('section:not([hidden])').length <= 1);
     this.calls.classList.toggle('single-line', enabled);
     this.calls.classList.toggle('big-duration', enabled);
-    CallsHandler.updateAllPhoneNumberDisplays();
+    CallsHandler.updateAllPhoneNumberDisplays(!enabled);
   },
 
   /**

@@ -231,13 +231,13 @@ HandledCall.prototype.restoreAdditionalContactInfo =
 };
 
 HandledCall.prototype.formatPhoneNumber =
-  function hc_formatPhoneNumber(ellipsisSide) {
+  function hc_formatPhoneNumber(ellipsisSide, isCallWaiting) {
     if (this._removed) {
       return;
     }
 
-    var maxFontSize = KeypadManager.getMaxFontSize(),
-        minFontSize = KeypadManager.getMinFontSize();
+    var maxFontSize = KeypadManager.getMaxFontSize(isCallWaiting),
+        minFontSize = KeypadManager.getMinFontSize(isCallWaiting);
 
     // In status bar mode, we want a fixed font-size
     if (CallScreen.inStatusBarMode) {
@@ -263,9 +263,9 @@ HandledCall.prototype.replacePhoneNumber =
 };
 
 HandledCall.prototype.restorePhoneNumber =
-  function hc_restorePhoneNumber() {
+  function hc_restorePhoneNumber(isCallWaiting) {
     this.numberNode.textContent = this._cachedInfo;
-    this.formatPhoneNumber('end');
+    this.formatPhoneNumber('end', isCallWaiting);
 };
 
 HandledCall.prototype.updateDirection = function hc_updateDirection() {

@@ -319,9 +319,9 @@ var CallsHandler = (function callsHandler() {
     window.close();
   }
 
-  function updateAllPhoneNumberDisplays() {
+  function updateAllPhoneNumberDisplays(isCallWaiting) {
     handledCalls.forEach(function(call) {
-      call.restorePhoneNumber();
+      call.restorePhoneNumber(isCallWaiting);
     });
   }
   window.addEventListener('resize', updateAllPhoneNumberDisplays);
