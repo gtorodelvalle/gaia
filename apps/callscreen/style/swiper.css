@@ -108,7 +108,7 @@
 
 /* Additional styling for lockscreen icon */
 .lockscreen-icon-right.triggered > div {
-  background-image: url("images/pickup_icon_pressed.png");
+  background-image: url("images/lock_screen/pickup_icon_pressed.png");
 }
 
 .lockscreen-icon-left.triggered > div {

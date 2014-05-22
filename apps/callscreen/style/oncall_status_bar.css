@@ -102,19 +102,19 @@
   }
 
   .incoming .direction-status-bar:before {
-    background-image: url('images/actionicon_activecall_incomingcall_active.png');
+    background-image: url('images/status_bar/actionicon_activecall_incomingcall_active.png');
   }
 
   .outgoing .direction-status-bar:before {
-    background-image: url('images/actionicon_activecall_outgoingcall_active.png');
+    background-image: url('images/status_bar/actionicon_activecall_outgoingcall_active.png');
   }
 
   .held .direction-status-bar:before {
-    background-image: url('images/actionicon_activecall_paused_active.png');
+    background-image: url('images/status_bar/actionicon_activecall_paused_active.png');
   }
 
   .ended .direction-status-bar:before {
-    background-image: url('images/actionicon_activecall_hangup_small.png');
+    background-image: url('images/shared/actionicon_activecall_hangup_small.png');
   }
 
   .isTimer {
@@ -130,7 +130,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     margin-right: 0.5rem;
-    background-image: url('images/actionicon_activecall_mute_small_active.png');
+    background-image: url('images/status_bar/actionicon_activecall_mute_small_active.png');
   }
 
   .font-light {

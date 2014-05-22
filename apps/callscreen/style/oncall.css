@@ -182,7 +182,7 @@
   }
 
   #call-screen:before {
-    background: url("images/mask.png") no-repeat scroll 50% 50% / cover transparent;
+    background: url("images/call_screen/mask.png") no-repeat scroll 50% 50% / cover transparent;
   }
 
   #main-container {
@@ -212,7 +212,7 @@
     top: 0;
     left: 0;
     background-color: #eaeaea;
-    background-image: url("images/picture_emergency.png");
+    background-image: url("images/call_screen/picture_emergency.png");
     background-repeat: no-repeat;
     background-position: center;
     height: 100%;
@@ -277,39 +277,39 @@
   }
 
   .icon-mute {
-    background-image: url('images/actionicon_activecall_mute_40x80.png');
+    background-image: url('images/call_screen/actionicon_activecall_mute_40x80.png');
   }
 
   #mute:active .icon-mute {
-    background-image: url('images/actionicon_activecall_mute_hitstate.png');
+    background-image: url('images/call_screen/actionicon_activecall_mute_hitstate.png');
   }
 
   .icon-keypad-visibility {
-    background-image: url('images/actionicon_activecall_dialpad_40x80.png');
+    background-image: url('images/call_screen/actionicon_activecall_dialpad_40x80.png');
   }
 
   #keypad-visibility:active .icon-keypad-visibility {
-    background-image: url('images/actionicon_activecall_dialpad_active.png');
+    background-image: url('images/call_screen/actionicon_activecall_dialpad_active.png');
   }
 
   .icon-place-new-call {
-    background-image: url('images/actionicon_activecall_add_call.png');
+    background-image: url('images/call_screen/actionicon_activecall_add_call.png');
   }
 
   #place-new-call:active .icon-place-new-call {
-    background-image: url('images/actionicon_activecall_add_call_active.png');
+    background-image: url('images/call_screen/actionicon_activecall_add_call_active.png');
   }
 
   .icon-speaker {
-    background-image: url('images/actionicon_activecall_speaker_40x80.png');
+    background-image: url('images/call_screen/actionicon_activecall_speaker_40x80.png');
   }
 
   #speaker:active .icon-speaker {
-    background-image: url('images/actionicon_activecall_speaker_hitstate.png');
+    background-image: url('images/call_screen/actionicon_activecall_speaker_hitstate.png');
   }
 
   .icon-bt {
-    background-image: url('images/actionicon_activecall_speaker.png');
+    background-image: url('images/call_screen/actionicon_activecall_speaker.png');
   }
 
   #callbar {
@@ -351,28 +351,28 @@
 
   #callbar-hang-up > .callbar-inner-button {
     margin: 1rem 0.5rem 1rem 1.5rem;
-    background: url('images/actionicon_activecall_hangup.png') center / 4rem no-repeat,
+    background: url('images/handled_call/actionicon_activecall_hangup.png') center / 4rem no-repeat,
                 #e00000;
   }
 
   #callbar-hang-up:active > .callbar-inner-button {
-    background: url('images/actionicon_activecall_hangup.png') center / 4rem no-repeat,
+    background: url('images/handled_call/actionicon_activecall_hangup.png') center / 4rem no-repeat,
                 #ff5933;
   }
 
   #callbar-answer > .callbar-inner-button {
     margin: 1rem 1.5rem 1rem .5rem;
-    background: url('images/actionicon_activecall_pickup.png') center / 4rem no-repeat,
+    background: url('images/handled_call/actionicon_activecall_pickup.png') center / 4rem no-repeat,
                 #00adad;
   }
 
   #callbar-answer:active > .callbar-inner-button {
-    background: url('images/actionicon_activecall_pickup.png') center / 4rem no-repeat,
+    background: url('images/handled_call/actionicon_activecall_pickup.png') center / 4rem no-repeat,
                 #94eee9;
   }
 
   #callbar-hold > .callbar-inner-button {
-    background: url('images/btn_resume.png') repeat-x;
+    background: url('images/handled_call/btn_resume.png') repeat-x;
     color: #333;
     text-align: center;
     font-size: 1.8rem;
@@ -447,7 +447,7 @@
     position: relative;
     top: calc(50% - 2rem);
     border-radius: 2rem;
-    background: url('images/ActionIcon_40x40_switchlines.png'),
+    background: url('images/handled_call/ActionIcon_40x40_switchlines.png'),
                 url('images/btn_switchlines.png');
     background-size: 4rem, auto 100%;
     background-position: center, center;
@@ -455,8 +455,8 @@
   }
 
   #switch-calls-button:active {
-    background: url('images/ActionIcon_40x40_switchlines.png'),
-                url('images/btn_switchlines_press.png');
+    background: url('images/handled_call/ActionIcon_40x40_switchlines.png'),
+                url('images/handled_call/btn_switchlines_press.png');
     background-size: 4rem, auto 100%;
     background-position: center, center;
     background-repeat: no-repeat, repeat-x;
@@ -575,7 +575,7 @@
 
   #calls.switch > section .shadow {
     display: block;
-    background: url('images/Shadow_SwitchBg.png');
+    background: url('images/call_screen/Shadow_SwitchBg.png');
     height: 0.9rem;
     width: 100%;
   }
@@ -621,14 +621,14 @@
   }
 
   #calls:not(.big-duration) > section.incoming {
-    background-image: url('images/actionicon_callscreen_incomingcall.png');
+    background-image: url('images/handled_call/actionicon_callscreen_incomingcall.png');
     background-size: 3rem;
     background-position: 0.7rem;
     background-repeat: no-repeat;
   }
 
   #calls:not(.big-duration) > section.outgoing {
-    background-image: url('images/actionicon_callscreen_outgoingcall.png');
+    background-image: url('images/handled_call/actionicon_callscreen_outgoingcall.png');
     background-size: 3rem;
     background-position: 0.7rem;
     background-repeat: no-repeat;
@@ -655,13 +655,13 @@
   }
 
   #calls:not(.big-duration) > section.held {
-    background-image: url('images/actionicon_activecall_paused.png');
+    background-image: url('images/handled_call/actionicon_activecall_paused.png');
     background-position: 0.7rem;
     background-repeat: no-repeat;
   }
 
   #calls:not(.big-duration) > section.ended {
-    background-image: url('images/actionicon_activecall_hangup_small.png');
+    background-image: url('images/shared/actionicon_activecall_hangup_small.png');
     background-position: 0.7rem;
     background-repeat: no-repeat;
   }
@@ -707,23 +707,23 @@
   }
 
   #calls.big-duration .handled-call.incoming .direction:before {
-    background-image: url('images/actionicon_callscreen_incomingcall.png');
+    background-image: url('images/handled_call/actionicon_callscreen_incomingcall.png');
     background-size: auto;
   }
 
   #calls.big-duration .handled-call.outgoing .direction:before {
-    background-image: url('images/actionicon_callscreen_outgoingcall.png');
+    background-image: url('images/handled_call/actionicon_callscreen_outgoingcall.png');
     background-size: auto;
   }
 
   #calls.big-duration .handled-call.ended .direction:before {
-    background-image: url('images/actionicon_callscreen_hangup.png');
+    background-image: url('images/handled_call/actionicon_callscreen_hangup.png');
     background-size: auto;
     background-position: 0 0.8rem;
   }
 
   #calls.big-duration .handled-call.held .direction:before {
-    background-image: url('images/hold_icon.png');
+    background-image: url('images/handled_call/hold_icon.png');
   }
 
   #calls:not(.big-duration) > section.ended .duration,
@@ -790,7 +790,7 @@
   }
 
   #incoming-answer {
-    background: url('images/actionicon_activecall_hold.png'),
+    background: url('images/handled_call/actionicon_activecall_hold.png'),
                 #00adad;
     background-size: 4rem, auto 100%;
     margin-left: 1rem;
@@ -798,7 +798,7 @@
   }
 
   #incoming-end {
-    background: url('images/actionicon_activecall_hangup.png'),
+    background: url('images/handled_call/actionicon_activecall_hangup.png'),
                 #e00000;
     background-size: 4rem, auto 100%;
     margin-left: 1.5rem;
@@ -806,7 +806,7 @@
 
   .incoming-number-info {
     background-color: rgba(255, 255, 255, 0.85);
-    background-image: url('images/actionicon_activecall_incomingcall.png');
+    background-image: url('images/handled_call/actionicon_activecall_incomingcall.png');
     background-position: 27.2rem 2rem;
     background-repeat: no-repeat;
     padding: 1rem 4.5rem 0 2.5rem;
@@ -854,7 +854,7 @@
     right : 0;
     height: 10rem;
     width: 6rem;
-    background: url('images/actionicon_callscreen_proceed.png') no-repeat 2rem center / 3rem;
+    background: url('images/handled_call/actionicon_callscreen_proceed.png') no-repeat 2rem center / 3rem;
   }
 
   #group-call.held #group-show {
@@ -898,7 +898,7 @@
     float: right;
     width: 4.5rem;
     height: 4.5rem;
-    background: url(images/actionicon_activecall_hangup.png) no-repeat center center / 4rem;
+    background: url(images/handled_call/actionicon_activecall_hangup.png) no-repeat center center / 4rem;
   }
 
   #group-call .fake-number {
@@ -1058,7 +1058,7 @@
     height: 8rem;
     top: 0;
     right: 0;
-    background: url(images/actionicon_activecall_merge_calls.png) no-repeat center;
+    background: url(images/handled_call/actionicon_activecall_merge_calls.png) no-repeat center;
     border: none;
     font-size: 0;
   }
@@ -1093,7 +1093,7 @@
     height: 2.2rem;
     padding-right: 2.6rem;
 
-    background-image: url('images/actionicon_callscreen_incomingcall.png');
+    background-image: url('images/handled_call/actionicon_callscreen_incomingcall.png');
     background-position: top right;
     background-repeat: no-repeat;
     background-size: 2.2rem;
