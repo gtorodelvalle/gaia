@@ -19,7 +19,6 @@ require('/shared/test/unit/mocks/dialer/mock_utils.js');
 require(
   '/shared/test/unit/mocks/mock_navigator_moz_set_message_handler.js'
 );
-require('/shared/test/unit/mocks/dialer/mock_keypad.js');
 
 // The CallsHandler binds stuff when evaluated so we load it
 // after the mocks and we don't want it to show up as a leak.
@@ -38,8 +37,7 @@ var mocksHelperForCallsHandler = new MocksHelper([
   'BluetoothHelper',
   'Utils',
   'Audio',
-  'SimplePhoneMatcher',
-  'KeypadManager'
+  'SimplePhoneMatcher'
 ]).init();
 
 suite('calls handler', function() {

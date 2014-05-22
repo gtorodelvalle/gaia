@@ -6,7 +6,7 @@
 
 'use strict';
 
-var kFontStep = 1;
+var kFontStep = 4;
 
 // Frequencies coming from http://en.wikipedia.org/wiki/Telephone_keypad
 var gTonesFrequencies = {
@@ -67,12 +67,8 @@ DtmfTone.kShortToneLength = 120;
 
 var KeypadManager = {
 
-  _MAX_FONT_SIZE_DIAL_PAD: 4.1,
-  _MIN_FONT_SIZE_DIAL_PAD: 2.6,
-  _MAX_FONT_SIZE_ON_CALL: 3.4,
-  _MIN_FONT_SIZE_ON_CALL: 2.3,
-  _MAX_FONT_SIZE_CALL_WAITING: 2.5,
-  _MIN_FONT_SIZE_CALL_WAITING: 2.3,
+  _MAX_FONT_SIZE_DIAL_PAD: 18,
+  _MAX_FONT_SIZE_ON_CALL: 16,
 
   _phoneNumber: '',
   _onCall: false,
@@ -84,119 +80,70 @@ var KeypadManager = {
 
   get phoneNumberView() {
     delete this.phoneNumberView;
-    this.phoneNumberView = document.getElementById('phone-number-view');
-    return this.phoneNumberView;
+    return this.phoneNumberView = document.getElementById('phone-number-view');
   },
 
   get fakePhoneNumberView() {
     delete this.fakePhoneNumberView;
-    this.fakePhoneNumberView =
+    return this.fakePhoneNumberView =
       document.getElementById('fake-phone-number-view');
-    return this.fakePhoneNumberView;
   },
 
   get phoneNumberViewContainer() {
     delete this.phoneNumberViewContainer;
-    this.phoneNumberViewContainer =
+    return this.phoneNumberViewContainer =
       document.getElementById('phone-number-view-container');
-    return this.phoneNumberViewContainer;
   },
 
   get keypad() {
     delete this.keypad;
-    this.keypad = document.getElementById('keypad');
-    return this.keypad;
+    return this.keypad = document.getElementById('keypad');
   },
 
   get callBar() {
     delete this.callBar;
-    this.callBar =
+    return this.callBar =
       document.getElementById('keypad-callbar');
-    return this.callBar;
   },
 
   get hideBar() {
     delete this.hideBar;
-    this.hideBar = document.getElementById('keypad-hidebar');
-    return this.hideBar;
+    return this.hideBar = document.getElementById('keypad-hidebar');
   },
 
   get callBarAddContact() {
     delete this.callBarAddContact;
-    this.callBarAddContact =
+    return this.callBarAddContact =
       document.getElementById('keypad-callbar-add-contact');
-    return this.callBarAddContact;
   },
 
   get callBarCallAction() {
     delete this.callBarCallAction;
-    this.callBarCallAction =
+    return this.callBarCallAction =
       document.getElementById('keypad-callbar-call-action');
-    return this.callBarCallAction;
   },
 
   get callBarCancelAction() {
     delete this.callBarCancelAction;
-    this.callBarCancelAction =
+    return this.callBarCancelAction =
       document.getElementById('keypad-callbar-cancel');
-    return this.callBarCancelAction;
   },
 
   get deleteButton() {
     delete this.deleteButton;
-    this.deleteButton = document.getElementById('keypad-delete');
-    return this.deleteButton;
+    return this.deleteButton = document.getElementById('keypad-delete');
   },
 
   get hideBarHangUpAction() {
     delete this.hideBarHangUpAction;
-    this.hideBarHangUpAction =
+    return this.hideBarHangUpAction =
       document.getElementById('keypad-hidebar-hang-up-action-wrapper');
-    return this.hideBarHangUpAction;
   },
 
   get hideBarHideAction() {
     delete this.hideBarHideAction;
-    this.hideBarHideAction =
+    return this.hideBarHideAction =
       document.getElementById('keypad-hidebar-hide-keypad-action');
-    return this.hideBarHideAction;
-  },
-
-  getDefaultFontSize: function kp_getDefaultFontSize() {
-    this._defaultFontSize = this._defaultFontSize ||
-      parseInt(window.getComputedStyle(document.body, null).
-        getPropertyValue('font-size'));
-    return this._defaultFontSize;
-  },
-
-  getMinFontSize: function kp_getMinFontSize(isCallWaiting) {
-    var minFontSize;
-    if (isCallWaiting) {
-      minFontSize =
-        parseInt(this.getDefaultFontSize() * this._MIN_FONT_SIZE_CALL_WAITING);
-    } else if (this._onCall) {
-      minFontSize =
-        parseInt(this.getDefaultFontSize() * this._MIN_FONT_SIZE_ON_CALL);
-    } else {
-      minFontSize =
-        parseInt(this.getDefaultFontSize() * this._MIN_FONT_SIZE_DIAL_PAD);
-    }
-    return minFontSize;
-  },
-
-  getMaxFontSize: function kp_getMaxFontSize(isCallWaiting) {
-    var maxFontSize;
-    if (isCallWaiting) {
-      maxFontSize =
-        parseInt(this.getDefaultFontSize() * this._MAX_FONT_SIZE_CALL_WAITING);
-    } else if (this._onCall) {
-      maxFontSize =
-        parseInt(this.getDefaultFontSize() * this._MAX_FONT_SIZE_ON_CALL);
-    } else {
-      maxFontSize =
-        parseInt(this.getDefaultFontSize() * this._MAX_FONT_SIZE_DIAL_PAD);
-    }
-    return maxFontSize;
   },
 
   multiSimActionButton: null,
@@ -204,6 +151,20 @@ var KeypadManager = {
   init: function kh_init(oncall) {
 
     this._onCall = !!oncall;
+
+    // Update the minimum phone number phone size.
+    // The UX team states that the minimum font size should be
+    // 10pt. First off, we convert it to px multiplying it 0.226 times,
+    // then we convert it to rem multiplying it a number of times equal
+    // to the font-size property of the body element.
+    var defaultFontSize = window.getComputedStyle(document.body, null)
+                                .getPropertyValue('font-size');
+    this.minFontSize = parseInt(parseInt(defaultFontSize) * 10 * 0.226);
+    this.maxFontSize = this._onCall ?
+    parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_ON_CALL *
+      0.226) :
+      parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_DIAL_PAD *
+        0.226);
 
     this.phoneNumberView.value = '';
     this._phoneNumber = '';
@@ -365,33 +326,26 @@ var KeypadManager = {
     CallsHandler.end();
   },
 
-  formatPhoneNumber: function kh_formatPhoneNumber(ellipsisSide, isMaxFontSize,
-    view, fakeView, isCallWaiting) {
-    fakeView = fakeView || this.fakePhoneNumberView;
-    view = view || this.phoneNumberView;
-    var theMaxFontSize = this.getMaxFontSize(isCallWaiting),
-        theMinFontSize;
+  formatPhoneNumber: function kh_formatPhoneNumber(ellipsisSide, maxFontSize) {
+    var fakeView = this.fakePhoneNumberView;
+    var view = this.phoneNumberView;
 
     // We consider the case where the delete button may have
     // been used to delete the whole phone number.
     if (view.value === '') {
-      view.style.fontSize = theMaxFontSize;
+      view.style.fontSize = this.maxFontSize;
       return;
     }
 
     var newFontSize;
-    if (isMaxFontSize) {
-      newFontSize = theMaxFontSize;
+    if (maxFontSize) {
+      newFontSize = this.maxFontSize;
     } else {
-      theMinFontSize = this.getMinFontSize(isCallWaiting);
       newFontSize =
-        Utils.getNextFontSize(view, fakeView, theMaxFontSize, theMinFontSize,
-          kFontStep);
+        Utils.getNextFontSize(view, fakeView, this.maxFontSize,
+          this.minFontSize, kFontStep);
     }
-    if (view.style.fontSize !== theMinFontSize &&
-      view.style.fontSize !== newFontSize) {
-      view.style.fontSize = newFontSize + 'px';
-    }
+    view.style.fontSize = newFontSize + 'px';
     Utils.addEllipsis(view, fakeView, ellipsisSide);
   },
 
