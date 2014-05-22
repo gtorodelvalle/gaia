@@ -40,7 +40,6 @@ var CallScreen = {
   incomingContainer: document.getElementById('incoming-container'),
   incomingInfo: document.getElementById('incoming-info'),
   incomingNumber: document.getElementById('incoming-number'),
-  fakeIncomingNumber: document.getElementById('fake-incoming-number'),
   incomingSim: document.getElementById('incoming-sim'),
   incomingNumberAdditionalInfo:
     document.getElementById('incoming-number-additional-info'),
@@ -69,11 +68,11 @@ var CallScreen = {
   },
 
   updateCallsDisplay: function cs_updateCallsDisplay() {
-    var visibleCalls =
-      this.calls.querySelectorAll('section:not([hidden])').length;
-    this.calls.classList.toggle('single-line', visibleCalls <= 1);
-    this.calls.classList.toggle('big-duration', visibleCalls <= 1);
-    CallsHandler.updateAllPhoneNumberDisplays(visibleCalls);
+    var enabled =
+      (this.calls.querySelectorAll('section:not([hidden])').length <= 1);
+    this.calls.classList.toggle('single-line', enabled);
+    this.calls.classList.toggle('big-duration', enabled);
+    CallsHandler.updateAllPhoneNumberDisplays();
   },
 
   /**

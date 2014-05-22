@@ -824,15 +824,6 @@
     font-weight: 300;
   }
 
-  #fake-incoming-number {
-    position: absolute;
-    line-height: 0;
-    visibility: hidden;
-    white-space: nowrap;
-    padding: 0;
-    top: 1rem;
-  }
-
   #incoming-number-additional-info {
     display: block;
     font-size: 1.6rem;
