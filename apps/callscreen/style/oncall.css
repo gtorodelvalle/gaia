@@ -329,7 +329,7 @@
   }
 
   #callbar-hold {
-    height: 6.5rem;
+    height: 6rem;
     width: 50%;
     display: none;
   }
@@ -372,12 +372,13 @@
   }
 
   #callbar-hold > .callbar-inner-button {
-    background: url('images/handled_call/btn_resume.png') repeat-x;
+    background-color: #00adad;
     color: #333;
     text-align: center;
     font-size: 1.8rem;
-    font-weight: 700;
     line-height: 4rem;
+    margin: 0 1.5rem 0 0.5rem;
+    font-style: italic;
   }
 
   #callbar-hold:active > .callbar-inner-button {
@@ -722,10 +723,6 @@
     background-position: 0 0.8rem;
   }
 
-  #calls.big-duration .handled-call.held .direction:before {
-    background-image: url('images/handled_call/hold_icon.png');
-  }
-
   #calls:not(.big-duration) > section.ended .duration,
   #calls:not(.big-duration) > section.ended.held .duration {
     color: white;
@@ -954,6 +951,11 @@
 
   #call-screen[data-layout="connected-hold"] #callbar-hold {
     display: block;
+  }
+
+  #call-screen[data-layout="connected-hold"] #calls.big-duration .handled-call.ongoing .direction:before {
+    background-image: url('images/handled_call/actionicon_callscreen_pausedcall.png');
+    background-size: auto;
   }
 
   #call-screen[data-layout="dialing"] #callbar-hang-up,
