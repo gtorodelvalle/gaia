@@ -309,7 +309,7 @@
 
 #keypad-hidebar-hang-up-action > div {
   margin: 0 auto;
-  background-image: url('keypad/images/actionicon_activecall_hangup.svg');
+  background-image: url('keypad/images/actionicon_activecall_hangup.png');
   background-repeat: no-repeat;
   background-size: 4rem 4rem;
   background-position: center;
@@ -330,7 +330,7 @@
 
 #keypad-hidebar-hide-keypad-action > div {
   margin: -moz-calc((4rem - 3rem)/2) auto;
-  background-image: url('keypad/images/actionicon_activecall_dismisskeyboard.svg');
+  background-image: url('keypad/images/actionicon_activecall_dismisskeyboard.png');
   background-repeat: no-repeat;
   background-size: 4rem 4rem;
   background-position: center;
