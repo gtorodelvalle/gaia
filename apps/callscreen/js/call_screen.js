@@ -183,8 +183,8 @@ var CallScreen = {
         },
 
         resources: {
-          larrow: '/style/images/lock_screen/larrow.png',
-          rarrow: '/style/images/lock_screen/rarrow.png'
+          larrow: '/style/images/lock_screen/LArrow_Lockscreen.png',
+          rarrow: '/style/images/lock_screen/RArrow_Lockscreen.png'
         },
         handle: {
           autoExpand: {
