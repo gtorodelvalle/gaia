@@ -709,17 +709,17 @@
 
   #calls.big-duration .handled-call.incoming .direction:before {
     background-image: url('images/handled_call/actionicon_callscreen_incomingcall.png');
-    background-size: auto;
+    background-size: 4rem;
   }
 
   #calls.big-duration .handled-call.outgoing .direction:before {
     background-image: url('images/handled_call/actionicon_callscreen_outgoingcall.png');
-    background-size: auto;
+    background-size: 4rem;
   }
 
   #calls.big-duration .handled-call.ended .direction:before {
     background-image: url('images/handled_call/actionicon_callscreen_hangup.png');
-    background-size: auto;
+    background-size: 4rem;
     background-position: 0 0.8rem;
   }
 
@@ -955,7 +955,7 @@
 
   #call-screen[data-layout="connected-hold"] #calls.big-duration .handled-call.ongoing .direction:before {
     background-image: url('images/handled_call/actionicon_callscreen_pausedcall.png');
-    background-size: auto;
+    background-size: 4rem;
   }
 
   #call-screen[data-layout="dialing"] #callbar-hang-up,
@@ -1052,6 +1052,7 @@
     top: 0;
     right: 0;
     background: url(images/handled_call/actionicon_activecall_merge_calls.png) no-repeat center;
+    background-size: 4rem;
     border: none;
     font-size: 0;
   }
