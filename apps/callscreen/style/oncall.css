@@ -192,20 +192,6 @@
     background: #000 no-repeat center top/cover;
   }
 
-  #main-container:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.40);
-    width: 100%;
-    height: 100%;
-  }
-
-  #main-container.transparent:before {
-    background-color: transparent;
-  }
-
   #main-container.emergency-active:before {
     content: "";
     position: absolute;
@@ -375,7 +361,7 @@
     background-color: #00adad;
     color: #333;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     line-height: 4rem;
     margin: 0 1.5rem 0 0.5rem;
     font-style: italic;
@@ -958,6 +944,14 @@
     background-size: 4rem;
   }
 
+  #call-screen[data-layout="connected-hold"] #co-advanced {
+    pointer-events: none;
+  }
+
+  #call-screen[data-layout="connected-hold"] #co-advanced span.icon {
+    opacity: 0.4;
+  }
+
   #call-screen[data-layout="dialing"] #callbar-hang-up,
   #call-screen[data-layout="connected"] #callbar-hang-up {
     width: 100%;
@@ -973,7 +967,6 @@
     visibility: hidden;
   }
 
-  #call-screen[data-layout="connected-hold"] #co-advanced,
   #call-screen:not(.displayed) #co-advanced,
   #call-screen:not(.displayed) #callbar {
     pointer-events: none;
