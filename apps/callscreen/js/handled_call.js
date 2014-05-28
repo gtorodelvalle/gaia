@@ -251,8 +251,8 @@ HandledCall.prototype.formatPhoneNumber =
       newFontSize = KeypadManager.maxFontSize;
     } else {
       newFontSize =
-      Utils.getNextFontSize(view, fakeView, KeypadManager.maxFontSize,
-        KeypadManager.minFontSize, kFontStep);
+        Utils.getNextFontSize(view, fakeView, KeypadManager.maxFontSize,
+          KeypadManager.minFontSize, kFontStep);
     }
     view.style.fontSize = newFontSize + 'px';
     Utils.addEllipsis(view, fakeView, ellipsisSide);

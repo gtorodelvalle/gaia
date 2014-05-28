@@ -161,7 +161,7 @@ var KeypadManager = {
                                 .getPropertyValue('font-size');
     this.minFontSize = parseInt(parseInt(defaultFontSize) * 10 * 0.226);
     this.maxFontSize = this._onCall ?
-    parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_ON_CALL *
+      parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_ON_CALL *
       0.226) :
       parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_DIAL_PAD *
         0.226);
