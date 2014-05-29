@@ -170,6 +170,10 @@ var CallScreen = {
           }
         },
 
+        track: {
+          backgroundColor: 'rgba(0, 0, 0, 0.4)'
+        },
+
         colors: {
           left: {
             touchedColor: '255, 0, 0',
@@ -189,7 +193,9 @@ var CallScreen = {
         handle: {
           autoExpand: {
             sentinelOffset: 80
-          }
+          },
+          backgroundColor: '255, 255, 255',
+          backgroundAlpha: 0.85
         }
       }
     );
