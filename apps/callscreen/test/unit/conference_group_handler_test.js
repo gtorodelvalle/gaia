@@ -161,8 +161,8 @@ suite('conference group handler', function() {
 
           test('should update the group label', function() {
             flush();
-            assert.equal(fakeGroupLabel.textContent, 'group-call');
-            assert.deepEqual(MockLazyL10n.keys['group-call'], {n: 2});
+            assert.equal(fakeGroupLabel.textContent, 'conference');
+            assert.deepEqual(MockLazyL10n.keys['conference'], {n: 2});
           });
 
           test('should call CallsHandler.checkCalls if two more phones remains',
