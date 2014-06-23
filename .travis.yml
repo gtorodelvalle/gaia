@@ -13,14 +13,36 @@ branches:
   - master
 env:
   matrix:
-  - CI_ACTION=linters
-  - CI_ACTION=unit-tests-in-firefox
-  - CI_ACTION=marionette_js PART=1 NBPARTS=2
-  - CI_ACTION=marionette_js PART=2 NBPARTS=2
-  - CI_ACTION=gaia_ui_tests SUITE=unit
-  - CI_ACTION=gaia_ui_tests SUITE=functional
-  - CI_ACTION=gaia_ui_tests SUITE=accessibility
-  - CI_ACTION=build_tests
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=1
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=1
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=1
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=2
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=2
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=2
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=3
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=3
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=3
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=4
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=4
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=4
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=5
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=5
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=5
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=6
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=6
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=6
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=7
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=7
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=7
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=8
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=8
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=8
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=9
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=9
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=9
+  - CI_ACTION=gaia_ui_tests SUITE=unit TRY=10
+  - CI_ACTION=gaia_ui_tests SUITE=functional TRY=10
+  - CI_ACTION=gaia_ui_tests SUITE=accessibility TRY=10
   global:
   - ARTIFACTS_S3_BUCKET=mozilla-releng-travis-uploads
   - secure: Gf2qm+xhLRTotuIvDD7HrNRmng3/dctGdsgF5P4aEu3nDujfxtZTp4sGirTqIngbfVzh9WkJ9eoT0yaDXtvWkr40Df6vwAUyI3P1x+NBOa2CkLz7U+f9j1yaJ3pJ121+L3o+7eTzJy/mvXHJYXAfa7rxcmjrCHpH5BSm+9/OZ4s=
