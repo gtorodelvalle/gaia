@@ -174,6 +174,13 @@ var FontSizeManager = (function fontSizeManager() {
     if (view.style.fontSize !== minFontSize &&
         view.style.fontSize !== newFontSize) {
       view.style.fontSize = newFontSize + 'px';
+      if (view.parentNode.parentNode.classList.contains('additionalInfo')) {
+        view.parentNode.style.display = 'table';
+        view.parentNode.style.width = '100%';
+        view.style.display = 'table-cell';
+        view.style.verticalAlign = 'bottom';
+        view.style.lineHeight = view.style.height = newFontSize + 'px';
+      }
     }
     _addEllipsis(view, fakeView, ellipsisSide);
   }
