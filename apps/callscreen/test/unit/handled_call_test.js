@@ -93,7 +93,6 @@ suite('dialer/handled_call', function() {
                               '<span class="via-sim"></span>' +
                               '<span class="sim-number"></span>' +
                             '</div>' +
-                            '<button class="merge-button"></button>' +
                           '</section>';
     document.body.appendChild(templates);
   });
@@ -145,7 +144,7 @@ suite('dialer/handled_call', function() {
     });
 
     test('call event listener', function() {
-      assert.equal(mockCall._eventListeners.statechange.length, 2);
+      assert.equal(mockCall._eventListeners.statechange.length, 4);
     });
 
     test('CallsHandler.updatePlaceNewCall added as call state listener',
@@ -190,7 +189,7 @@ suite('dialer/handled_call', function() {
       });
 
       test('should have a merge button', function() {
-        var mergeButton = subject.node.querySelector('.merge-button');
+        var mergeButton = document.getElementById('merge');
         assert.equal(subject.mergeButton, mergeButton);
       });
     });
@@ -847,15 +846,6 @@ suite('dialer/handled_call', function() {
       var hangUpSpy = this.sinon.spy(mockCall, 'hangUp');
       subject.hangupButton.onclick();
       assert.isTrue(hangUpSpy.calledOnce);
-    });
-  });
-
-  suite('merge button', function() {
-    test('should listen for click', function() {
-      var mergeActiveCallWithSpy = this.sinon.spy(CallsHandler,
-                                                  'mergeActiveCallWith');
-      subject.mergeButton.onclick();
-      assert.isTrue(mergeActiveCallWithSpy.calledWith(subject.call));
     });
   });
 

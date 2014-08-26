@@ -179,6 +179,8 @@ var CallsHandler = (function callsHandler() {
       // User performed another outgoing call. show its status.
       } else {
         updatePlaceNewCall();
+        updateOnHoldStatus();
+        updateMergeStatus();
         hc.show();
       }
     } else {
@@ -557,12 +559,16 @@ var CallsHandler = (function callsHandler() {
     if (telephony.active) {
       telephony.active.hold();
       CallScreen.render('connected-hold');
+      CallScreen.disableMute();
+      CallScreen.disableSpeaker();
     } else {
       var line = telephony.calls.length ?
         telephony.calls[0] : telephony.conferenceGroup;
 
       line.resume();
       CallScreen.render('connected');
+      CallScreen.enableMute();
+      CallScreen.enableSpeaker();
     }
   }
 
@@ -758,16 +764,14 @@ var CallsHandler = (function callsHandler() {
              (telephony.conferenceGroup.calls.length > 0));
   }
 
-  function mergeActiveCallWith(call) {
-    if (telephony.active == telephony.conferenceGroup) {
-      telephony.conferenceGroup.add(call);
-    } else {
-      telephony.conferenceGroup.add(telephony.active, call);
+  function mergeCalls() {
+    if(telephony.conferenceGroup.calls.length > 0){
+      telephony.conferenceGroup.add(telephony.calls[0]);
     }
-  }
-
-  function mergeConferenceGroupWithActiveCall() {
-    telephony.conferenceGroup.add(telephony.active);
+    else{
+      telephony.conferenceGroup.add(
+            telephony.calls[0], telephony.calls[1]);
+    }
   }
 
   /* === Telephony audio channel competing functions ===*/
@@ -798,14 +802,34 @@ var CallsHandler = (function callsHandler() {
     holdOrResumeSingleCall();
   }
 
-  function updatePlaceNewCall() {
-    var isEstablishing = telephony.calls.some(function (call) {
+  function isEstablishing() {
+    return telephony.calls.some(function (call) {
       return call.state == 'dialing' || call.state == 'alerting';
     });
-    if (telephony.calls && isEstablishing) {
+  }
+
+  function updatePlaceNewCall() {
+    if (telephony.calls && CallsHandler.isEstablishing()) {
       CallScreen.disablePlaceNewCall();
     } else {
       CallScreen.enablePlaceNewCall();
+    }
+  }
+
+  function updateOnHoldStatus() {
+    if (telephony.calls && CallsHandler.isEstablishing()) {
+      CallScreen.disableOnHold();
+    } else {
+      CallScreen.enableOnHold();
+    }
+  }
+
+  function updateMergeStatus() {
+    if ((telephony.calls.length >= 2 && CallsHandler.isEstablishing()) ||
+      (telephony.conferenceGroup && CallsHandler.isEstablishing())) {
+      CallScreen.disableMerge();
+    } else {
+      CallScreen.enableMerge();
     }
   }
 
@@ -818,18 +842,21 @@ var CallsHandler = (function callsHandler() {
     toggleCalls: toggleCalls,
     ignore: ignore,
     end: end,
+    updateOnHoldStatus: updateOnHoldStatus,
     toggleMute: toggleMute,
     toggleSpeaker: toggleSpeaker,
     unmute: unmute,
     switchToReceiver: switchToReceiver,
     switchToSpeaker: switchToSpeaker,
     switchToDefaultOut: switchToDefaultOut,
+    holdOrResumeSingleCall: holdOrResumeSingleCall,
+    isEstablishing: isEstablishing,
 
     checkCalls: onCallsChanged,
-    mergeActiveCallWith: mergeActiveCallWith,
-    mergeConferenceGroupWithActiveCall: mergeConferenceGroupWithActiveCall,
+    mergeCalls: mergeCalls,
     updateAllPhoneNumberDisplays: updateAllPhoneNumberDisplays,
     updatePlaceNewCall: updatePlaceNewCall,
+    updateMergeStatus: updateMergeStatus,
 
     get activeCall() {
       return activeCall();
