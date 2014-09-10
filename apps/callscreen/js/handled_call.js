@@ -10,9 +10,11 @@ function HandledCall(aCall) {
   this.call = aCall;
 
   aCall.addEventListener('statechange', this);
-  aCall.addEventListener('statechange', CallsHandler.updatePlaceNewCall);
-  aCall.addEventListener('statechange', CallsHandler.updateMergeStatus);
-  aCall.addEventListener('statechange', CallsHandler.updateOnHoldStatus);
+  aCall.addEventListener('statechange', function(){
+    CallsHandler.updatePlaceNewCall();
+    CallsHandler.updateMergeStatus();
+    CallsHandler.updateOnHoldStatus();
+  });
 
   aCall.ongroupchange = (function onGroupChange() {
     if (this.call.group) {

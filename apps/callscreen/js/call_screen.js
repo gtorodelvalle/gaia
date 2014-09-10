@@ -127,7 +127,8 @@ var CallScreen = {
     this.bluetoothButton.addEventListener('click',
                                     this.toggleBluetoothMenu.bind(this));
     this.holdButton.addEventListener('click', this.toggleOnHold.bind(this));
-    this.mergeButton.addEventListener('click', this.mergeCalls.bind(this));
+    this.mergeButton.addEventListener('click', 
+                                    CallsHandler.mergeCalls.bind(this));
     this.answerButton.addEventListener('click',
                                     CallsHandler.answer);
     this.rejectButton.addEventListener('click',
@@ -409,10 +410,6 @@ var CallScreen = {
   toggleOnHold: function cs_toggleOnHold() {
     this.holdButton.classList.toggle('active-state');
     CallsHandler.holdOrResumeSingleCall();
-  },
-
-  mergeCalls: function cs_mergeCalls() {
-    CallsHandler.mergeCalls();
   },
 
   // when BT device available: switch to BT

@@ -284,7 +284,7 @@
 
   .co-advanced-option.active-state .icon.icon-mute,
   .co-advanced-option.active-state .icon.icon-speaker,
-  .co-advanced-option.active-state .icon.icon-b {
+  .co-advanced-option.active-state .icon.icon-bt {
     background-position: 0 -4rem;
   }
   
@@ -301,7 +301,8 @@
   .co-advanced-option.active-state:active .icon.icon-on-hold {
     background-position: 0 4rem;
   }
-
+  
+  /* This two selectors is the way to switch the on-hold button with merge button */
   #calls:not(.single-line) ~ #main-container #on-hold {
     display: none;
   }
@@ -313,7 +314,7 @@
   #callbar {
     display: flex;
     background: rgba(255, 255, 255, 0.85);
-    -moz-box-sizing: border-box;
+    box-sizing: border-box;
   }
 
   #callbar > button {
@@ -528,7 +529,7 @@
 
   #calls:not(.single-line) > section:not(.held) .isTimer {
     color: #fff;
-    -moz-font-feature-settings: "tnum";
+    font-feature-settings: "tnum";
   }
 
   #calls.big-duration > section .additionalContactInfo {
@@ -598,8 +599,7 @@
   #calls.big-duration > section.held .additionalContactInfo,
   #calls.big-duration > section.ended .numberWrapper,
   #calls.big-duration > section.ended .additionalContactInfo,
-  #calls.big-duration > section.ended .switch-calls,
-  #calls.big-duration.single-line > section.held .numberWrapper {
+  #calls.big-duration > section.ended .switch-calls {
     background-color: rgba(255, 255, 255, 0.85);
   }
 
@@ -633,7 +633,7 @@
   #calls > section.ended .additionalContactInfo,
   #calls.big-duration > section.ended .additionalContactInfo,
   #calls.big-duration:not(.single-line) > section.held .additionalContactInfo {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   #calls.big-duration > section.held .duration {
@@ -901,7 +901,6 @@
   }
 
   #call-screen[data-layout="dialing"] #callbar-answer,
-  #call-screen[data-layout="dialing"] #callbar-hold,
   #call-screen[data-layout="incoming"] #swiper-wrapper,
   #call-screen[data-layout="incoming-locked"] #callbar-answer,
   #call-screen[data-layout="incoming-locked"] #callbar-hang-up,
@@ -909,9 +908,7 @@
   #call-screen[data-layout="incoming-locked"] .duration,
   #call-screen[data-layout="connected"] #callbar-answer,
   #call-screen[data-layout="connected-hold"] #callbar-answer,
-  #call-screen[data-layout="connected-hold"] #callbar-hold,
   #call-screen[data-layout="connected"] #callbar-answer,
-  #call-screen[data-layout="connected"] #callbar-hold,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-header,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-masked-background,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-area,

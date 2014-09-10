@@ -765,10 +765,9 @@ var CallsHandler = (function callsHandler() {
   }
 
   function mergeCalls() {
-    if(telephony.conferenceGroup.calls.length > 0){
+    if (telephony.conferenceGroup.calls.length > 0) {
       telephony.conferenceGroup.add(telephony.calls[0]);
-    }
-    else{
+    } else {
       telephony.conferenceGroup.add(
             telephony.calls[0], telephony.calls[1]);
     }
@@ -802,14 +801,14 @@ var CallsHandler = (function callsHandler() {
     holdOrResumeSingleCall();
   }
 
-  function isEstablishing() {
+  function isEstablishingCall() {
     return telephony.calls.some(function (call) {
       return call.state == 'dialing' || call.state == 'alerting';
     });
   }
 
   function updatePlaceNewCall() {
-    if (telephony.calls && CallsHandler.isEstablishing()) {
+    if (isEstablishingCall()) {
       CallScreen.disablePlaceNewCall();
     } else {
       CallScreen.enablePlaceNewCall();
@@ -817,7 +816,7 @@ var CallsHandler = (function callsHandler() {
   }
 
   function updateOnHoldStatus() {
-    if (telephony.calls && CallsHandler.isEstablishing()) {
+    if (isEstablishingCall()) {
       CallScreen.disableOnHold();
     } else {
       CallScreen.enableOnHold();
@@ -825,8 +824,8 @@ var CallsHandler = (function callsHandler() {
   }
 
   function updateMergeStatus() {
-    if ((telephony.calls.length >= 2 && CallsHandler.isEstablishing()) ||
-      (telephony.conferenceGroup && CallsHandler.isEstablishing())) {
+    if (isEstablishingCall() && 
+       (telephony.calls.length >= 2 || telephony.conferenceGroup)) {
       CallScreen.disableMerge();
     } else {
       CallScreen.enableMerge();
@@ -842,7 +841,6 @@ var CallsHandler = (function callsHandler() {
     toggleCalls: toggleCalls,
     ignore: ignore,
     end: end,
-    updateOnHoldStatus: updateOnHoldStatus,
     toggleMute: toggleMute,
     toggleSpeaker: toggleSpeaker,
     unmute: unmute,
@@ -850,13 +848,14 @@ var CallsHandler = (function callsHandler() {
     switchToSpeaker: switchToSpeaker,
     switchToDefaultOut: switchToDefaultOut,
     holdOrResumeSingleCall: holdOrResumeSingleCall,
-    isEstablishing: isEstablishing,
+    isEstablishingCall: isEstablishingCall,
 
     checkCalls: onCallsChanged,
     mergeCalls: mergeCalls,
     updateAllPhoneNumberDisplays: updateAllPhoneNumberDisplays,
     updatePlaceNewCall: updatePlaceNewCall,
     updateMergeStatus: updateMergeStatus,
+    updateOnHoldStatus: updateOnHoldStatus,
 
     get activeCall() {
       return activeCall();
