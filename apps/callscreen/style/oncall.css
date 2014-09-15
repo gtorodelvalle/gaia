@@ -314,7 +314,6 @@
   #callbar {
     display: flex;
     background: rgba(255, 255, 255, 0.85);
-    box-sizing: border-box;
   }
 
   #callbar > button {
@@ -908,7 +907,6 @@
   #call-screen[data-layout="incoming-locked"] .duration,
   #call-screen[data-layout="connected"] #callbar-answer,
   #call-screen[data-layout="connected-hold"] #callbar-answer,
-  #call-screen[data-layout="connected"] #callbar-answer,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-header,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-masked-background,
   #call-screen:not([data-layout="incoming-locked"]) #lockscreen-area,

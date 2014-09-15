@@ -370,5 +370,4 @@ suite('conference group handler', function() {
       assert.isTrue(showStatusSpy.calledWith('conferenceRemoveError'));
     });
   });
-
 });
