@@ -765,12 +765,10 @@ var CallsHandler = (function callsHandler() {
   }
 
   function mergeCalls() {
-    if (telephony.conferenceGroup.calls.length > 0) {
-      telephony.conferenceGroup.add(telephony.calls[0]);
-    } else {
-      telephony.conferenceGroup.add(
-            telephony.calls[0], telephony.calls[1]);
+    if (!telephony.conferenceGroup.calls.length) {
+      telephony.conferenceGroup.add(telephony.calls[0], telephony.calls[1]);
     }
+    telephony.conferenceGroup.add(telephony.calls[0]);
   }
 
   /* === Telephony audio channel competing functions ===*/
@@ -802,7 +800,7 @@ var CallsHandler = (function callsHandler() {
   }
 
   function isEstablishingCall() {
-    return telephony.calls.some(function (call) {
+    return telephony.calls.some(function(call) {
       return call.state == 'dialing' || call.state == 'alerting';
     });
   }
@@ -825,7 +823,7 @@ var CallsHandler = (function callsHandler() {
 
   function updateMergeStatus() {
     if (isEstablishingCall() && 
-       (telephony.calls.length >= 2 || telephony.conferenceGroup)) {
+        (telephony.calls.length >= 2 || telephony.conferenceGroup)) {
       CallScreen.disableMerge();
     } else {
       CallScreen.enableMerge();

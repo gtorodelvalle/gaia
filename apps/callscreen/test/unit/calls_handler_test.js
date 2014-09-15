@@ -165,14 +165,14 @@ suite('calls handler', function() {
       });
 
       test('should disable the place new call button while establishing',
-        function() {
+      function() {
         this.sinon.spy(MockCallScreen, 'disablePlaceNewCall');
         mockCall.mChangeState('dialing');
         sinon.assert.calledOnce(MockCallScreen.disablePlaceNewCall);
       });
 
       test('should enable the place new call button when established',
-        function() {
+      function() {
         this.sinon.spy(MockCallScreen, 'enablePlaceNewCall');
         mockCall.mChangeState('connected');
         sinon.assert.calledOnce(MockCallScreen.enablePlaceNewCall);
