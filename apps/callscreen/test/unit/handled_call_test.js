@@ -1,4 +1,4 @@
-/* globals CallsHandler, FontSizeManager, HandledCall, MockCall, MockCallScreen,
+/* globals FontSizeManager, HandledCall, MockCall, MockCallScreen,
            MockCallsHandler, MockContactPhotoHelper, MockContacts,
            MockLazyL10n, MockMozL10n, MockNavigatorMozIccManager,
            MockNavigatorSettings, MocksHelper, MockUtils, Voicemail,
@@ -186,11 +186,6 @@ suite('dialer/handled_call', function() {
         var durationChildNode = subject.node.querySelector('.duration span');
         assert.equal(subject.durationChildNode, durationChildNode);
         assert.isTrue(durationChildNode.classList.contains('font-light'));
-      });
-
-      test('should have a merge button', function() {
-        var mergeButton = document.getElementById('merge');
-        assert.equal(subject.mergeButton, mergeButton);
       });
     });
 
