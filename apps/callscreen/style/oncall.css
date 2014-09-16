@@ -287,7 +287,7 @@
   .co-advanced-option.active-state .icon.icon-bt {
     background-position: 0 -4rem;
   }
-  
+
   .co-advanced-option.active-state .icon.icon-on-hold {
     background-position: 0 8rem;
   }
@@ -302,15 +302,6 @@
     background-position: 0 4rem;
   }
   
-  /* This two selectors is the way to switch the on-hold button with merge button */
-  #calls:not(.single-line) ~ #main-container #on-hold {
-    display: none;
-  }
-  
-   #calls:not(.single-line) ~ #main-container #merge {
-    display: block;
-  }
-
   #callbar {
     display: flex;
     background: rgba(255, 255, 255, 0.85);
