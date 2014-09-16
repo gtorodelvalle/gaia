@@ -10,11 +10,6 @@ function HandledCall(aCall) {
   this.call = aCall;
 
   aCall.addEventListener('statechange', this);
-  aCall.addEventListener('statechange', function(){
-    CallsHandler.updatePlaceNewCall();
-    CallsHandler.updateMergeStatus();
-    CallsHandler.updateOnHoldStatus();
-  });
 
   aCall.ongroupchange = (function onGroupChange() {
     if (this.call.group) {
@@ -108,6 +103,9 @@ HandledCall.prototype.handleEvent = function hc_handle(evt) {
       this.node.classList.add('held');
       break;
   }
+  CallsHandler.updatePlaceNewCall();
+  CallsHandler.updateMergeStatus();
+  CallsHandler.updateOnHoldStatus();
 };
 
 HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {
