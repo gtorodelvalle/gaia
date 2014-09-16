@@ -547,14 +547,6 @@ var CallScreen = {
     this.mergeButton.classList.add('hide');
   },
 
-  enableMerge: function cs_enableMerge() {
-    this.mergeButton.removeAttribute('disabled');
-  },
-
-  disableMerge: function cs_disableOnHold() {
-    this.mergeButton.setAttribute('disabled', 'disabled');
-  },
-
   showGroupDetails: function cs_showGroupDetails(evt) {
     if (evt) {
       evt.stopPropagation();
