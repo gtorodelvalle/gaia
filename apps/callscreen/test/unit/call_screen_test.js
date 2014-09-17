@@ -51,6 +51,8 @@ suite('call screen', function() {
   var incomingContainer;
   var bluetoothButton,
       bluetoothMenu;
+  var holdButton;
+  var mergeButton;
 
   mocksHelperForCallScreen.attachTestHelpers();
 
@@ -131,6 +133,14 @@ suite('call screen', function() {
     bluetoothButton = document.createElement('div');
     bluetoothButton.id = 'bt';
     screen.appendChild(bluetoothButton);
+
+    holdButton = document.createElement('button');
+    holdButton.id = 'on-hold';
+    screen.appendChild(holdButton);
+
+    mergeButton = document.createElement('button');
+    mergeButton.id = 'merge';
+    screen.appendChild(mergeButton);
 
     bluetoothMenu = document.createElement('form');
     bluetoothMenu.id = 'bluetooth-menu';
@@ -681,6 +691,25 @@ suite('call screen', function() {
           number: ''
         }
       });
+    });
+  });
+
+  suite('toggleOnHold', function() {
+    test('should change active-state class', function() {
+      var classList = CallScreen.holdButton.classList;
+      var originalState = classList.contains('active-state');
+
+      CallScreen.toggleOnHold();
+      assert.notEqual(classList.contains('active-state'), originalState);
+
+      CallScreen.toggleOnHold();
+      assert.equal(classList.contains('active-state'), originalState);
+    });
+
+    test('should call CallsHandler.holdOrResumeSingleCall', function() {
+      this.sinon.spy(MockCallsHandler, 'holdOrResumeSingleCall');
+      CallScreen.toggleOnHold();
+      assert.isTrue(MockCallsHandler.holdOrResumeSingleCall.calledOnce);
     });
   });
 
