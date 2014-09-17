@@ -759,6 +759,25 @@ suite('call screen', function() {
     });
   });
 
+  suite('toggleOnHold', function() {
+    test('should change active-state class', function() {
+      var classList = CallScreen.holdButton.classList;
+      var originalState = classList.contains('active-state');
+
+      CallScreen.toggleOnHold();
+      assert.notEqual(classList.contains('active-state'), originalState);
+
+      CallScreen.toggleOnHold();
+      assert.equal(classList.contains('active-state'), originalState);
+    });
+
+    test('should call CallsHandler.holdOrResumeSingleCall', function() {
+      this.sinon.spy(MockCallsHandler, 'holdOrResumeSingleCall');
+      CallScreen.toggleOnHold();
+      assert.isTrue(MockCallsHandler.holdOrResumeSingleCall.calledOnce);
+    });
+  });
+
   suite('resizeHandler', function() {
     test('updateCallsDisplay is called with the right arguments', function() {
       this.sinon.stub(CallScreen, 'updateCallsDisplay');
