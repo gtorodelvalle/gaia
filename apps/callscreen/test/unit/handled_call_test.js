@@ -144,7 +144,7 @@ suite('dialer/handled_call', function() {
     });
 
     test('call event listener', function() {
-      assert.equal(mockCall._eventListeners.statechange.length, 4);
+      assert.equal(mockCall._eventListeners.statechange.length, 1);
     });
 
     test('CallsHandler.updatePlaceNewCall added as call state listener',
