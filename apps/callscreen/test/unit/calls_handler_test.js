@@ -176,10 +176,22 @@ suite('calls handler', function() {
         sinon.assert.calledOnce(MockCallScreen.enablePlaceNewCall);
       });
 
+      test('should show the on hold button while establishing', function() {
+        this.sinon.spy(MockCallScreen, 'showOnHold');
+        mockCall.mChangeState('dialing');
+        sinon.assert.calledOnce(MockCallScreen.showOnHold);
+      });
+
       test('should disable the on hold button while establishing', function() {
         this.sinon.spy(MockCallScreen, 'disableOnHold');
         mockCall.mChangeState('dialing');
         sinon.assert.calledOnce(MockCallScreen.disableOnHold);
+      });
+
+      test('should show the on hold button when established', function() {
+        this.sinon.spy(MockCallScreen, 'showOnHold');
+        mockCall.mChangeState('connected');
+        sinon.assert.calledOnce(MockCallScreen.showOnHold);
       });
 
       test('should enable the on hold button when established', function() {
@@ -188,16 +200,16 @@ suite('calls handler', function() {
         sinon.assert.calledOnce(MockCallScreen.enableOnHold);
       });
 
-      test('should disable the merge button while establishing', function() {
-        this.sinon.spy(MockCallScreen, 'disableMerge');
+      test('should hide the merge button while establishing', function() {
+        this.sinon.spy(MockCallScreen, 'hideMerge');
         mockCall.mChangeState('dialing');
-        sinon.assert.calledOnce(MockCallScreen.disableMerge);
+        sinon.assert.calledOnce(MockCallScreen.hideMerge);
       });
 
-      test('should enabled the merge button when established', function() {
-        this.sinon.spy(MockCallScreen, 'enableMerge');
+      test('should hide the merge button when established', function() {
+        this.sinon.spy(MockCallScreen, 'hideMerge');
         mockCall.mChangeState('connected');
-        sinon.assert.calledOnce(MockCallScreen.enableMerge);
+        sinon.assert.calledOnce(MockCallScreen.hideMerge);
       });
 
       suite('screen management', function() {
@@ -399,16 +411,22 @@ suite('calls handler', function() {
         sinon.assert.calledOnce(MockCallScreen.disablePlaceNewCall);
       });
 
+      test('should show the on hold button', function() {
+        this.sinon.spy(MockCallScreen, 'showOnHold');
+        extraCall.mChangeState('alerting');
+        sinon.assert.calledOnce(MockCallScreen.showOnHold);
+      });
+
       test('should disable the on hold button', function() {
         this.sinon.spy(MockCallScreen, 'disableOnHold');
         extraCall.mChangeState('alerting');
         sinon.assert.calledOnce(MockCallScreen.disableOnHold);
       });
 
-      test('should disable the merge button', function() {
-        this.sinon.spy(MockCallScreen, 'disableMerge');
+      test('should hide the merge button', function() {
+        this.sinon.spy(MockCallScreen, 'hideMerge');
         extraCall.mChangeState('alerting');
-        sinon.assert.calledOnce(MockCallScreen.disableMerge);
+        sinon.assert.calledOnce(MockCallScreen.hideMerge);
       });
 
       suite('screen management', function() {
@@ -461,8 +479,9 @@ suite('calls handler', function() {
 
       setup(function() {
         this.sinon.spy(MockCallScreen, 'disablePlaceNewCall');
+        this.sinon.spy(MockCallScreen, 'showOnHold');
         this.sinon.spy(MockCallScreen, 'disableOnHold');
-        this.sinon.spy(MockCallScreen, 'disableMerge');
+        this.sinon.spy(MockCallScreen, 'hideMerge');
         var firstCall = new MockCall('543552', 'incoming');
         extraCall = new MockCall('12334', 'dialing');
 
@@ -474,12 +493,16 @@ suite('calls handler', function() {
         sinon.assert.calledOnce(MockCallScreen.disablePlaceNewCall);
       });
 
+      test('should show the on hold button', function() {
+        sinon.assert.calledOnce(MockCallScreen.showOnHold);
+      });
+
       test('should disable the on hold button', function() {
         sinon.assert.calledOnce(MockCallScreen.disableOnHold);
       });
 
-      test('should disable the merge button', function() {
-        sinon.assert.calledOnce(MockCallScreen.disableMerge);
+      test('should hide the merge button', function() {
+        sinon.assert.calledOnce(MockCallScreen.hideMerge);
       });
     });
 

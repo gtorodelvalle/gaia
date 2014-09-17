@@ -814,35 +814,22 @@ var CallsHandler = (function callsHandler() {
 
   function updateMergeOnHoldStatus() {
     if (getNumberOfCalls() > 1 && !isEstablishingCall()) {
-      updateMergeStatus();
       CallScreen.hideOnHold();
       CallScreen.showMerge();
     } else {
-      updateOnHoldStatus();
+      if (isEstablishingCall()) {
+        CallScreen.disableOnHold();
+      } else {
+        CallScreen.enableOnHold();
+      }
       CallScreen.hideMerge();
       CallScreen.showOnHold();
     }
   }
 
-  function updateOnHoldStatus() {
-    if (isEstablishingCall()) {
-      CallScreen.disableOnHold();
-    } else {
-      CallScreen.enableOnHold();
-    }
-  }
-
-  function updateMergeStatus() {
-    if (isEstablishingCall() &&
-      (telephony.calls.length >= 2 || telephony.conferenceGroup)) {
-      CallScreen.disableMerge();
-    } else {
-      CallScreen.enableMerge();
-    }
-  }
-
   function getNumberOfCalls() {
-    return telephony.calls.length + (telephony.conferenceGroup ? 1 : 0);
+    return telephony.calls.length +
+      (telephony.conferenceGroup.calls.length ? 1 : 0);
   }
 
   return {
