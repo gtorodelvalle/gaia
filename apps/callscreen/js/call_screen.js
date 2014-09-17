@@ -118,43 +118,43 @@ var CallScreen = {
   init: function cs_init() {
     this.muteButton.addEventListener('click', this.toggleMute.bind(this));
     this.hideBarMuteButton.addEventListener('click',
-                                    this.toggleMute.bind(this));
+                                            this.toggleMute.bind(this));
     this.keypadButton.addEventListener('click', this.showKeypad.bind(this));
     this.placeNewCallButton.addEventListener('click',
                                              this.placeNewCall.bind(this));
     this.speakerButton.addEventListener('click',
-                                    this.toggleSpeaker.bind(this));
+                                        this.toggleSpeaker.bind(this));
     this.bluetoothButton.addEventListener('click',
-                                    this.toggleBluetoothMenu.bind(this));
+                                          this.toggleBluetoothMenu.bind(this));
     this.holdButton.addEventListener('click', this.toggleOnHold.bind(this));
-    this.mergeButton.addEventListener('click', 
-                                    CallsHandler.mergeCalls.bind(this));
+    this.mergeButton.addEventListener('click',
+                                      CallsHandler.mergeCalls.bind(this));
     this.answerButton.addEventListener('click',
-                                    CallsHandler.answer);
+                                       CallsHandler.answer);
     this.rejectButton.addEventListener('click',
-                                    CallsHandler.end);
+                                       CallsHandler.end);
 
     this.showGroupButton.addEventListener('click',
-                                    this.showGroupDetails.bind(this));
+                                          this.showGroupDetails.bind(this));
 
     this.hideGroupButton.addEventListener('click',
-                                    this.hideGroupDetails.bind(this));
+                                          this.hideGroupDetails.bind(this));
 
-    this.switchToDeviceButton.addEventListener('click',
-                                    this.switchToDefaultOut.bind(this, false));
-    this.switchToReceiverButton.addEventListener('click',
-                                    this.switchToReceiver.bind(this));
-    this.switchToSpeakerButton.addEventListener('click',
-                                    this.switchToSpeaker.bind(this));
-    this.bluetoothMenuCancel.addEventListener('click',
-                                    this.toggleBluetoothMenu.bind(this));
+    this.switchToDeviceButton.addEventListener(
+      'click', this.switchToDefaultOut.bind(this, false));
+    this.switchToReceiverButton.addEventListener(
+      'click', this.switchToReceiver.bind(this));
+    this.switchToSpeakerButton.addEventListener(
+      'click', this.switchToSpeaker.bind(this));
+    this.bluetoothMenuCancel.addEventListener(
+      'click', this.toggleBluetoothMenu.bind(this));
 
     this.incomingAnswer.addEventListener('click',
-                              CallsHandler.holdAndAnswer);
+                                         CallsHandler.holdAndAnswer);
     this.incomingEnd.addEventListener('click',
-                              CallsHandler.endAndAnswer);
+                                      CallsHandler.endAndAnswer);
     this.incomingIgnore.addEventListener('click',
-                                    CallsHandler.ignore);
+                                         CallsHandler.ignore);
 
     this.calls.addEventListener('click', CallsHandler.toggleCalls.bind(this));
 
@@ -523,12 +523,28 @@ var CallScreen = {
     this.speakerButton.setAttribute('disabled', 'disabled');
   },
 
+  showOnHold: function cs_showOnHold() {
+    this.holdButton.classList.remove('hide');
+  },
+
+  hideOnHold: function cs_hideOnHold() {
+    this.holdButton.classList.add('hide');
+  },
+
   enableOnHold: function cs_enableOnHold() {
     this.holdButton.removeAttribute('disabled');
   },
 
   disableOnHold: function cs_disableOnHold() {
     this.holdButton.setAttribute('disabled', 'disabled');
+  },
+
+  showMerge: function cs_showMerge() {
+    this.mergeButton.classList.remove('hide');
+  },
+
+  hideMerge: function cs_hideMerge() {
+    this.mergeButton.classList.add('hide');
   },
 
   enableMerge: function cs_enableMerge() {

@@ -117,9 +117,7 @@ suite('calls handler', function() {
         mockCall.addEventListener(
           'statechange', CallsHandler.updatePlaceNewCall);
         mockCall.addEventListener(
-          'statechange', CallsHandler.updateOnHoldStatus);
-        mockCall.addEventListener(
-          'statechange', CallsHandler.updateMergeStatus);
+          'statechange', CallsHandler.updateMergeOnHoldStatus);
         mockHC = telephonyAddCall.call(this, mockCall);
       });
 
@@ -264,9 +262,7 @@ suite('calls handler', function() {
         extraCall.addEventListener(
           'statechange', CallsHandler.updatePlaceNewCall);
         extraCall.addEventListener(
-          'statechange', CallsHandler.updateOnHoldStatus);
-        extraCall.addEventListener(
-          'statechange', CallsHandler.updateMergeStatus);
+          'statechange', CallsHandler.updateMergeOnHoldStatus);
 
         telephonyAddCall.call(this, firstCall, {trigger: true});
         extraHC = telephonyAddCall.call(this, extraCall);

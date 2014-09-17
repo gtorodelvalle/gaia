@@ -104,8 +104,7 @@ HandledCall.prototype.handleEvent = function hc_handle(evt) {
       break;
   }
   CallsHandler.updatePlaceNewCall();
-  CallsHandler.updateMergeStatus();
-  CallsHandler.updateOnHoldStatus();
+  CallsHandler.updateMergeOnHoldStatus();
 };
 
 HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {
