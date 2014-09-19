@@ -179,7 +179,7 @@ var CallsHandler = (function callsHandler() {
       // User performed another outgoing call. show its status.
       } else {
         updatePlaceNewCall();
-        updateMergeOnHoldStatus();
+        updateMergeAndOnHoldStatus();
         hc.show();
       }
     } else {
@@ -812,7 +812,12 @@ var CallsHandler = (function callsHandler() {
     }
   }
 
-  function updateMergeOnHoldStatus() {
+  function getNumberOfCalls() {
+    return telephony.calls.length +
+      (telephony.conferenceGroup.calls.length ? 1 : 0);
+  }
+
+  function updateMergeAndOnHoldStatus() {
     if (getNumberOfCalls() > 1 && !isEstablishingCall()) {
       CallScreen.hideOnHold();
       CallScreen.showMerge();
@@ -825,11 +830,6 @@ var CallsHandler = (function callsHandler() {
       CallScreen.hideMerge();
       CallScreen.showOnHold();
     }
-  }
-
-  function getNumberOfCalls() {
-    return telephony.calls.length +
-      (telephony.conferenceGroup.calls.length ? 1 : 0);
   }
 
   return {
@@ -854,7 +854,7 @@ var CallsHandler = (function callsHandler() {
     mergeCalls: mergeCalls,
     updateAllPhoneNumberDisplays: updateAllPhoneNumberDisplays,
     updatePlaceNewCall: updatePlaceNewCall,
-    updateMergeOnHoldStatus: updateMergeOnHoldStatus,
+    updateMergeAndOnHoldStatus: updateMergeAndOnHoldStatus,
 
     get activeCall() {
       return activeCall();
