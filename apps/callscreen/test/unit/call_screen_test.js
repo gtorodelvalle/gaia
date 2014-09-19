@@ -183,13 +183,15 @@ suite('call screen', function() {
 
   suite('call screen initialize', function() {
     var mockElements = ['keypadButton', 'placeNewCallButton', 'answerButton',
-      'rejectButton', 'holdButton', 'showGroupButton', 'hideGroupButton',
-      'incomingAnswer', 'incomingEnd', 'incomingIgnore'];
+      'rejectButton', 'holdButton', 'mergeButton', 'showGroupButton',
+      'hideGroupButton', 'incomingAnswer', 'incomingEnd', 'incomingIgnore'];
 
     setup(function() {
       this.sinon.stub(CallScreen, 'showClock');
       this.sinon.stub(CallScreen, 'initLockScreenSlide');
       this.sinon.stub(CallScreen, 'render');
+      this.sinon.spy(CallScreen, 'toggleOnHold');
+      this.sinon.spy(MockCallsHandler, 'mergeCalls');
       mockElements.forEach(function(name) {
         CallScreen[name] = document.createElement('button');
       });
@@ -200,6 +202,8 @@ suite('call screen', function() {
       sinon.assert.notCalled(CallScreen.showClock);
       sinon.assert.notCalled(CallScreen.initLockScreenSlide);
       sinon.assert.notCalled(CallScreen.render);
+      sinon.assert.notCalled(CallScreen.toggleOnHold);
+      sinon.assert.notCalled(MockCallsHandler.mergeCalls);
     });
 
     suite('incoming-locked screen initialize', function() {
@@ -227,6 +231,30 @@ suite('call screen', function() {
         sinon.assert.called(CallScreen.showClock);
         sinon.assert.called(CallScreen.initLockScreenSlide);
         sinon.assert.notCalled(CallScreen.render);
+      });
+    });
+
+    suite('button listeners successfully added and notified', function() {
+      test('hold button successfully added and notified', function() {
+        CallScreen.init();
+        var event = new MouseEvent('click', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true
+        });
+        CallScreen.holdButton.dispatchEvent(event);
+        sinon.assert.called(CallScreen.toggleOnHold);
+      });
+
+      test('merge button successfully added and notified', function() {
+        CallScreen.init();
+        var event = new MouseEvent('click', {
+          'view': window,
+          'bubbles': true,
+          'cancelable': true
+        });
+        CallScreen.mergeButton.dispatchEvent(event);
+        sinon.assert.called(MockCallsHandler.mergeCalls);
       });
     });
   });
