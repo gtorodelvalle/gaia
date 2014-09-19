@@ -34,7 +34,7 @@ var MockCallsHandler = {
   updatePlaceNewCall: function() {},
   mergeCalls: function() {},
   holdOrResumeSingleCall: function() {},
-  updateMergeOnHoldStatus: function() {},
+  updateMergeAndOnHoldStatus: function() {},
 
   mTeardown: function() {
     this.mActiveCall = null;
