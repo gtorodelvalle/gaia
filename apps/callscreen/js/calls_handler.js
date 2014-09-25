@@ -818,11 +818,12 @@ var CallsHandler = (function callsHandler() {
   }
 
   function updateMergeAndOnHoldStatus() {
-    if (getNumberOfCalls() > 1 && !isEstablishingCall()) {
+    var isEstablishing = isEstablishingCall();
+    if (getNumberOfCalls() > 1 && !isEstablishing) {
       CallScreen.hideOnHold();
       CallScreen.showMerge();
     } else {
-      if (isEstablishingCall()) {
+      if (isEstablishing) {
         CallScreen.disableOnHold();
       } else {
         CallScreen.enableOnHold();
