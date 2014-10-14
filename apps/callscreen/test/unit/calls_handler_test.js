@@ -781,31 +781,6 @@ suite('calls handler', function() {
   });
 
   suite('> Public methods', function() {
-    suite('> CallsHandler.isEstablishingCall()', function() {
-      var mockCall;
-
-      test('dialing call', function() {
-        mockCall = new MockCall('12334', 'dialing');
-        telephonyAddCall.call(this, mockCall);
-
-        assert.isTrue(CallsHandler.isEstablishingCall());
-      });
-
-      test('alerting call', function() {
-        mockCall = new MockCall('12334', 'alerting');
-        telephonyAddCall.call(this, mockCall);
-
-        assert.isTrue(CallsHandler.isEstablishingCall());
-      });
-
-      test('any other call state', function() {
-        mockCall = new MockCall('12334', 'other');
-        telephonyAddCall.call(this, mockCall);
-
-        assert.isFalse(CallsHandler.isEstablishingCall());
-      });
-    });
-
     suite('> CallsHandler.answer()', function() {
       var mockCall;
 

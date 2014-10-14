@@ -82,6 +82,8 @@ HandledCall.prototype._wasUnmerged = function hc_wasUnmerged() {
 };
 
 HandledCall.prototype.handleEvent = function hc_handle(evt) {
+  CallsHandler.updatePlaceNewCall();
+  CallsHandler.updateMergeAndOnHoldStatus();
   switch (evt.call.state) {
     case 'connected':
       // The dialer agent in the system app plays and stops the ringtone once
@@ -103,8 +105,6 @@ HandledCall.prototype.handleEvent = function hc_handle(evt) {
       this.node.classList.add('held');
       break;
   }
-  CallsHandler.updatePlaceNewCall();
-  CallsHandler.updateMergeAndOnHoldStatus();
 };
 
 HandledCall.prototype.updateCallNumber = function hc_updateCallNumber() {

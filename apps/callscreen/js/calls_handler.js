@@ -833,7 +833,6 @@ var CallsHandler = (function callsHandler() {
     switchToSpeaker: switchToSpeaker,
     switchToDefaultOut: switchToDefaultOut,
     holdOrResumeSingleCall: holdOrResumeSingleCall,
-    isEstablishingCall: isEstablishingCall,
 
     checkCalls: onCallsChanged,
     mergeCalls: mergeCalls,

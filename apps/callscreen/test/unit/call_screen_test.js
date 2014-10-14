@@ -195,7 +195,7 @@ suite('call screen', function() {
       this.sinon.stub(CallScreen, 'showClock');
       this.sinon.stub(CallScreen, 'initLockScreenSlide');
       this.sinon.stub(CallScreen, 'render');
-      this.sinon.spy(CallScreen, 'holdOrResume');
+      this.sinon.spy(MockCallsHandler, 'holdOrResumeSingleCall');
       this.sinon.spy(MockCallsHandler, 'mergeCalls');
       mockElements.forEach(function(name) {
         CallScreen[name] = document.createElement('button');
@@ -207,7 +207,7 @@ suite('call screen', function() {
       sinon.assert.notCalled(CallScreen.showClock);
       sinon.assert.notCalled(CallScreen.initLockScreenSlide);
       sinon.assert.notCalled(CallScreen.render);
-      sinon.assert.notCalled(CallScreen.holdOrResume);
+      sinon.assert.notCalled(MockCallsHandler.holdOrResumeSingleCall);
       sinon.assert.notCalled(MockCallsHandler.mergeCalls);
     });
 
@@ -248,7 +248,7 @@ suite('call screen', function() {
           'cancelable': true
         });
         CallScreen.holdButton.dispatchEvent(event);
-        sinon.assert.calledOnce(CallScreen.holdOrResume);
+        sinon.assert.calledOnce(MockCallsHandler.holdOrResumeSingleCall);
       });
 
       test('merge button successfully added and notified', function() {
@@ -737,12 +737,6 @@ suite('call screen', function() {
 
       CallScreen.toggleOnHold();
       assert.equal(classList.contains('active-state'), originalState);
-    });
-
-    test('should call CallsHandler.holdOrResumeSingleCall', function() {
-      this.sinon.spy(MockCallsHandler, 'holdOrResumeSingleCall');
-      CallScreen.holdOrResume();
-      assert.isTrue(MockCallsHandler.holdOrResumeSingleCall.calledOnce);
     });
   });
 

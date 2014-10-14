@@ -291,8 +291,9 @@
 
   .co-advanced-option.active-state .icon.icon-mute,
   .co-advanced-option.active-state .icon.icon-speaker,
-  .co-advanced-option.active-state .icon.icon-bt {
-    background-position: 0 -4rem;
+  .co-advanced-option.active-state .icon.icon-bt,
+  .co-advanced-option.active-state:active .icon.icon-on-hold {
+    background-position: 0 4rem;
   }
 
   .co-advanced-option.active-state .icon.icon-on-hold {
