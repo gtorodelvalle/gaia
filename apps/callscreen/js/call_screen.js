@@ -384,8 +384,9 @@ var CallScreen = {
   },
 
   toggleOnHold: function cs_toggleOnHold() {
-    this.holdButton.classList.toggle('active-state', 
-                                      navigator.mozTelephony.call ); 
+    this.holdButton.classList.toggle('active-state',
+      navigator.mozTelephony.active ||
+      navigator.mozTelephony.conferenceGroup.state == 'holding');
   },
 
   // when BT device available: switch to BT

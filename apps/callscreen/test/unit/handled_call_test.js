@@ -105,7 +105,6 @@ suite('dialer/handled_call', function() {
     this.sinon.stub(MockContactPhotoHelper,
                     'getThumbnail').returns(photoThumbnail);
     this.sinon.useFakeTimers(Date.now());
-    this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
 
     mockCall = new MockCall(String(phoneNumber), 'dialing');
     subject = new HandledCall(mockCall);
@@ -124,6 +123,10 @@ suite('dialer/handled_call', function() {
   });
 
   suite('initialization', function() {
+    setup(function() {
+      this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
+    });
+
     test('full resolution photo', function() {
       assert.equal(subject.photo, photoFullResolution);
     });
@@ -141,7 +144,7 @@ suite('dialer/handled_call', function() {
     });
 
     test('CallsHandler.updatePlaceNewCall added as call state listener',
-      function() {
+    function() {
       subject.call.mChangeState();
       sinon.assert.calledOnce(MockCallsHandler.updatePlaceNewCall);
     });
@@ -273,6 +276,8 @@ suite('dialer/handled_call', function() {
   suite('on connect', function() {
     setup(function() {
       this.sinon.spy(AudioCompetingHelper, 'compete');
+      this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
+      this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
       mockCall._connect();
     });
 
@@ -329,6 +334,14 @@ suite('dialer/handled_call', function() {
 
     test('speaker initially off', function() {
       assert.isFalse(MockCallScreen.mSpeakerOn);
+    });
+
+    test('the place new call button status is updated', function() {
+      sinon.assert.calledOnce(MockCallsHandler.updatePlaceNewCall);
+    });
+
+    test('the merge and on hold buttons status is updated', function() {
+      sinon.assert.calledOnce(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
 
     test('AudioCompetingHelper compete gets called when connected', function() {
@@ -425,6 +438,18 @@ suite('dialer/handled_call', function() {
         assert.isTrue(playSpy.calledWith([[480, 620, 250]]));
       });
 
+      test('the place new call button status is updated', function() {
+        this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
+        mockCall._disconnect();
+        sinon.assert.calledOnce(MockCallsHandler.updatePlaceNewCall);
+      });
+
+      test('the merge and on hold buttons status is updated', function() {
+        this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
+        mockCall._disconnect();
+        sinon.assert.calledOnce(MockCallsHandler.updateMergeAndOnHoldStatus);
+      });
+
       test('AudioCompetingHelper leaveCompetition gets called on disconnected',
         function() {
           this.sinon.spy(AudioCompetingHelper, 'leaveCompetition');
@@ -463,6 +488,8 @@ suite('dialer/handled_call', function() {
 
   suite('holding', function() {
     setup(function() {
+      this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
+      this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
       this.sinon.spy(AudioCompetingHelper, 'leaveCompetition');
       mockCall._hold();
     });
@@ -475,10 +502,20 @@ suite('dialer/handled_call', function() {
     function() {
       sinon.assert.called(AudioCompetingHelper.leaveCompetition);
     });
+
+    test('the place new call button status is updated', function() {
+      sinon.assert.called(MockCallsHandler.updatePlaceNewCall);
+    });
+
+    test('the merge and on hold buttons status is updated', function() {
+      sinon.assert.called(MockCallsHandler.updateMergeAndOnHoldStatus);
+    });
   });
 
   suite('resuming', function() {
     setup(function() {
+      this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
+      this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
       mockCall._hold();
       MockCallScreen.mSyncSpeakerCalled = false;
       MockCallScreen.mEnableKeypadCalled = false;
@@ -496,6 +533,14 @@ suite('dialer/handled_call', function() {
 
     test('changed the user photo', function() {
       assert.isTrue(MockCallScreen.mSetCallerContactImageCalled);
+    });
+
+    test('the place new call button status is updated', function() {
+      sinon.assert.called(MockCallsHandler.updatePlaceNewCall);
+    });
+
+    test('the merge and on hold buttons status is updated', function() {
+      sinon.assert.called(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
   });
 

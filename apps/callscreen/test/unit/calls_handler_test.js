@@ -1702,8 +1702,8 @@ suite('calls handler', function() {
         });
       });
 
-      suite(
-        '1 one-to-one established call and 1 establishing call', function() {
+      suite('1 one-to-one established call and 1 establishing call', 
+      function() {
         setup(function() {
           telephonyAddCall.call(
             this, new MockCall('111111111', 'connected'), {trigger: true});
@@ -1730,8 +1730,8 @@ suite('calls handler', function() {
         });
       });
 
-      suite(
-        '1 conference established call and 1 establishing call', function() {
+      suite('1 conference established call and 1 establishing call', 
+      function() {
         var conferenceCall1, conferenceCall2;
 
         setup(function() {

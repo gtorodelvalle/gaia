@@ -240,24 +240,23 @@ suite('call screen', function() {
     });
 
     suite('button listeners successfully added and notified', function() {
-      test('hold button successfully added and notified', function() {
+      var event;
+
+      setup(function() {
         CallScreen.init();
-        var event = new MouseEvent('click', {
+        event = new MouseEvent('click', {
           'view': window,
           'bubbles': true,
           'cancelable': true
         });
+      });
+
+      test('hold button successfully added and notified', function() {
         CallScreen.holdButton.dispatchEvent(event);
         sinon.assert.calledOnce(MockCallsHandler.holdOrResumeSingleCall);
       });
 
       test('merge button successfully added and notified', function() {
-        CallScreen.init();
-        var event = new MouseEvent('click', {
-          'view': window,
-          'bubbles': true,
-          'cancelable': true
-        });
         CallScreen.mergeButton.dispatchEvent(event);
         sinon.assert.calledOnce(MockCallsHandler.mergeCalls);
       });
@@ -728,15 +727,91 @@ suite('call screen', function() {
   });
 
   suite('toggleOnHold', function() {
-    test('should change active-state class', function() {
-      var classList = CallScreen.holdButton.classList;
-      var originalState = classList.contains('active-state');
+    test('should put active-state class when there is an active call', 
+    function() {
+      navigator.mozTelephony.active = true;
 
       CallScreen.toggleOnHold();
-      assert.notEqual(classList.contains('active-state'), originalState);
+      assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
+    });
+    test('should remove active-state class when there isn\'t an active call', 
+    function() {
+      navigator.mozTelephony.active = null;
+    
+      CallScreen.toggleOnHold();
+      assert.isFalse(CallScreen.holdButton.classList.contains('active-state'));
+    });
+    test('should put active-state class with conferenceCall on holding', 
+    function() {
+      navigator.mozTelephony.conferenceGroup.state = 'holding';
 
       CallScreen.toggleOnHold();
-      assert.equal(classList.contains('active-state'), originalState);
+      assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
+    });
+    test('should remove active-state class with conferenceCall on connected', 
+    function() {
+      navigator.mozTelephony.conferenceGroup.state = 'connected';
+
+      CallScreen.toggleOnHold();
+      assert.isFalse(CallScreen.holdButton.classList.contains('active-state'));
+    });
+  });
+
+  suite('enable and disable button mute', function() {
+    test('should add the disabled attribute', function() {
+      CallScreen.disableMute();
+      assert.equal(CallScreen.muteButton.getAttribute('disabled'), 'disabled');
+    });
+    test('should remove the disabled attribute', function() {
+      CallScreen.enableMute();
+      assert.equal(CallScreen.muteButton.getAttribute('disabled'), null);
+    });
+  });
+
+  suite('enable and disable place new call button', function() {
+    test('should add the disabled attribute', function() {
+      CallScreen.disablePlaceNewCall();
+      assert.equal(CallScreen.placeNewCallButton.getAttribute('disabled'),
+                                                                  'disabled');
+    });
+    test('should remove the disabled attribute', function() {
+      CallScreen.enablePlaceNewCall();
+      assert.equal(CallScreen.placeNewCallButton.getAttribute('disabled'),
+                                                                        null);
+    });
+  });
+
+  suite('enable and disable speaker button', function() {
+    test('should add the disabled attribute', function() {
+      CallScreen.disableSpeaker();
+      assert.equal(CallScreen.speakerButton.getAttribute('disabled'),
+                                                              'disabled');
+    });
+    test('should remove the disabled attribute', function() {
+      CallScreen.enableSpeaker();
+      assert.equal(CallScreen.speakerButton.getAttribute('disabled'), null);
+    });
+  });
+
+  suite('show and hide on hold button', function() {
+    test('should add the hide class', function() {
+      CallScreen.showOnHold();
+      assert.isFalse(CallScreen.holdButton.classList.contains('hide'));
+    });
+    test('should remove the hide class', function() {
+      CallScreen.hideOnHold();
+      assert.isTrue(CallScreen.holdButton.classList.contains('hide'));
+    });
+  });
+
+  suite('enable and disable merge button', function() {
+    test('should add the hide class', function() {
+      CallScreen.hideMerge();
+      assert.isTrue(CallScreen.mergeButton.classList.contains('hide'));
+    });
+    test('should remove the hide class', function() {
+      CallScreen.showMerge();
+      assert.isFalse(CallScreen.mergeButton.classList.contains('hide'));
     });
   });
 
