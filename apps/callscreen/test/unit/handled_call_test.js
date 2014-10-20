@@ -500,7 +500,7 @@ suite('dialer/handled_call', function() {
 
     test('AudioCompetingHelper leaveCompetition gets called when held',
     function() {
-      sinon.assert.called(AudioCompetingHelper.leaveCompetition);
+      sinon.assert.calledOnce(AudioCompetingHelper.leaveCompetition);
     });
 
     test('the place new call button status is updated', function() {

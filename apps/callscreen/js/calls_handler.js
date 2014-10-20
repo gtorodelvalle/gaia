@@ -543,16 +543,16 @@ var CallsHandler = (function callsHandler() {
     if (telephony.active) {
       telephony.active.hold();
       CallScreen.render('connected-hold');
-      CallScreen.disableMute();
-      CallScreen.disableSpeaker();
+      CallScreen.disableMuteButton();
+      CallScreen.disableSpeakerButton();
     } else {
       var line = telephony.calls.length ?
         telephony.calls[0] : telephony.conferenceGroup;
 
       line.resume();
       CallScreen.render('connected');
-      CallScreen.enableMute();
-      CallScreen.enableSpeaker();
+      CallScreen.enableMuteButton();
+      CallScreen.enableSpeakerButton();
     }
     CallScreen.toggleOnHold();
   }
@@ -792,9 +792,9 @@ var CallsHandler = (function callsHandler() {
 
   function updatePlaceNewCall() {
     if (isEstablishingCall()) {
-      CallScreen.disablePlaceNewCall();
+      CallScreen.disablePlaceNewCallButton();
     } else {
-      CallScreen.enablePlaceNewCall();
+      CallScreen.enablePlaceNewCallButton();
     }
   }
 
@@ -804,16 +804,16 @@ var CallsHandler = (function callsHandler() {
       (telephony.conferenceGroup.calls.length ? 1 : 0);
     
     if (openLines > 1 && !isEstablishing) {
-      CallScreen.hideOnHold();
-      CallScreen.showMerge();
+      CallScreen.hideOnHoldButton();
+      CallScreen.showMergeButton();
     } else {
       if (isEstablishing) {
-        CallScreen.disableOnHold();
+        CallScreen.disableOnHoldButton();
       } else {
-        CallScreen.enableOnHold();
+        CallScreen.enableOnHoldButton();
       }
-      CallScreen.hideMerge();
-      CallScreen.showOnHold();
+      CallScreen.hideMergeButton();
+      CallScreen.showOnHoldButton();
     }
   }
 

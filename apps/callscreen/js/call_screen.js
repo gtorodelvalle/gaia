@@ -476,51 +476,51 @@ var CallScreen = {
     }
   },
 
-  enableMute: function cs_enableMute() {
+  enableMuteButton: function cs_enableMuteButton() {
     this.muteButton.removeAttribute('disabled');
   },
 
-  disableMute: function cs_disableMute() {
+  disableMuteButton: function cs_disableMuteButton() {
     this.muteButton.setAttribute('disabled', 'disabled');
   },
 
-  enablePlaceNewCall: function cs_enablePlaceNewCall() {
+  enablePlaceNewCallButton: function cs_enablePlaceNewCallButton() {
     this.placeNewCallButton.removeAttribute('disabled');
   },
 
-  disablePlaceNewCall: function cs_disablePlaceNewCall() {
+  disablePlaceNewCallButton: function cs_disablePlaceNewCallButton() {
     this.placeNewCallButton.setAttribute('disabled', 'disabled');
   },
 
-  enableSpeaker: function cs_enableSpeaker() {
+  enableSpeakerButton: function cs_enableSpeakerButton() {
     this.speakerButton.removeAttribute('disabled');
   },
 
-  disableSpeaker: function cs_disableSpeaker() {
+  disableSpeakerButton: function cs_disableSpeakerButton() {
     this.speakerButton.setAttribute('disabled', 'disabled');
   },
 
-  showOnHold: function cs_showOnHold() {
+  showOnHoldButton: function cs_showOnHoldButton() {
     this.holdButton.classList.remove('hide');
   },
 
-  hideOnHold: function cs_hideOnHold() {
+  hideOnHoldButton: function cs_hideOnHoldButton() {
     this.holdButton.classList.add('hide');
   },
 
-  enableOnHold: function cs_enableOnHold() {
+  enableOnHoldButton: function cs_enableOnHoldButton() {
     this.holdButton.removeAttribute('disabled');
   },
 
-  disableOnHold: function cs_disableOnHold() {
+  disableOnHoldButton: function cs_disableOnHoldButton() {
     this.holdButton.setAttribute('disabled', 'disabled');
   },
 
-  showMerge: function cs_showMerge() {
+  showMergeButton: function cs_showMergeButton() {
     this.mergeButton.classList.remove('hide');
   },
 
-  hideMerge: function cs_hideMerge() {
+  hideMergeButton: function cs_hideMergeButton() {
     this.mergeButton.classList.add('hide');
   },
 

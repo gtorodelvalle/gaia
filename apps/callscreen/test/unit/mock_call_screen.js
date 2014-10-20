@@ -17,41 +17,41 @@ var MockCallScreen = {
       cb();
     }
   },
-  enablePlaceNewCall: function() {
-    this.mEnablePlaceNewCallCalled = true;
+  enablePlaceNewCallButton: function() {
+    this.menablePlaceNewCallButtonCalled = true;
   },
-  disablePlaceNewCall: function() {
-    this.mEnablePlaceNewCallCalled = false;
+  disablePlaceNewCallButton: function() {
+    this.menablePlaceNewCallButtonCalled = false;
   },
-  enableMute: function() {
-    this.mEnableMuteCalled = true;
+  enableMuteButton: function() {
+    this.menableMuteButtonCalled = true;
   },
-  disableMute: function() {
-    this.mEnableMuteCalled = false;
+  disableMuteButton: function() {
+    this.menableMuteButtonCalled = false;
   },
-  enableSpeaker: function() {
-    this.mEnableSpeakerCalled = true;
+  enableSpeakerButton: function() {
+    this.menableSpeakerButtonCalled = true;
   },
-  disableSpeaker: function() {
-    this.mEnableSpeakerCalled = false;
+  disableSpeakerButton: function() {
+    this.menableSpeakerButtonCalled = false;
   },
-  showOnHold: function() {
-    this.mShowOnHoldCalled = true;
+  showOnHoldButton: function() {
+    this.mshowOnHoldButtonCalled = true;
   },
-  hideOnHold: function() {
-    this.mHideOnHoldCalled = true;
+  hideOnHoldButton: function() {
+    this.mhideOnHoldButtonCalled = true;
   },
-  enableOnHold: function() {
-    this.mEnableOnHoldCalled = true;
+  enableOnHoldButton: function() {
+    this.menableOnHoldButtonCalled = true;
   },
-  disableOnHold: function() {
-    this.mEnableOnHoldCalled = false;
+  disableOnHoldButton: function() {
+    this.menableOnHoldButtonCalled = false;
   },
-  showMerge: function() {
-    this.mShowMergeCalled = true;
+  showMergeButton: function() {
+    this.mShowMergeButtonCalled = true;
   },
-  hideMerge: function() {
-    this.mHideMergeCalled = true;
+  hideMergeButton: function() {
+    this.mhideMergeButtonCalled = true;
   },
   syncSpeakerEnabled: function() {
     this.mSyncSpeakerCalled = true;
@@ -141,28 +141,28 @@ var MockCallScreen = {
   incomingSim: document.createElement('div'),
   incomingNumberAdditionalInfo: document.createElement('span'),
 
-  mEnablePlaceNewCallCalled: false,
-  mEnableMuteCalled: false,
-  mEnableSpeakerCalled: false,
-  mShowOnHoldCalled: false,
-  mHideOnHoldCalled: false,
-  mEnableOnHoldCalled: false,
-  mShowMergeCalled: false,
-  mHideMergeCalled: false,
+  menablePlaceNewCallButtonCalled: false,
+  menableMuteButtonCalled: false,
+  menableSpeakerButtonCalled: false,
+  mshowOnHoldButtonCalled: false,
+  mhideOnHoldButtonCalled: false,
+  menableOnHoldButtonCalled: false,
+  mShowMergeButtonCalled: false,
+  mhideMergeButtonCalled: false,
   mSyncSpeakerCalled: false,
   mSetCallerContactImageCalled: false,
   mMuteOn: false,
   mSpeakerOn: false,
   mLastRenderMode: null,
   mTeardown: function teardown() {
-    this.mEnablePlaceNewCallCalled = false;
-    this.mEnableMuteCalled = false;
-    this.mEnableSpeakerCalled = false;
-    this.mShowOnHoldCalled = false,
-    this.mHideOnHoldCalled = false,
-    this.mEnableOnHoldCalled = false,
-    this.mShowMergeCalled = false,
-    this.mHideMergeCalled = false,
+    this.menablePlaceNewCallButtonCalled = false;
+    this.menableMuteButtonCalled = false;
+    this.menableSpeakerButtonCalled = false;
+    this.mshowOnHoldButtonCalled = false,
+    this.mhideOnHoldButtonCalled = false,
+    this.menableOnHoldButtonCalled = false,
+    this.mShowMergeButtonCalled = false,
+    this.mhideMergeButtonCalled = false,
     this.mSyncSpeakerCalled = false;
     this.mSetCallerContactImageCalled = false;
     this.mMuteOn = false;
