@@ -614,5 +614,39 @@ var CallScreen = {
       scenario = FontSizeManager.CALL_WAITING;
     }
     return scenario;
+  },
+
+  showEventInfo: function(ev, notifiedTo) {
+    console.log(ev.type.toUpperCase() + ' notified to ' + notifiedTo + ': ');
+    if (ev.call) {
+      console.log('  - ev.call.id.number: ' + ev.call.id.number);
+      console.log('  - ev.call.state: ' + ev.call.state);
+      console.log('  - ev.call.group: ' + ev.call.group);
+      if (ev.call.group) {
+        console.log('  - ev.call.group.calls.length: ' +
+          ev.call.group.calls.length);
+        for (var k = 0; k < ev.call.group.calls.length; k++) {
+          console.log('  - ev.call.group.calls[' + k + ']: ' +
+            ev.call.group.calls[k].id.number);
+        }
+      }
+    }
+    console.log('  - navigator.mozTelephony.calls.length: ' +
+      navigator.mozTelephony.calls.length);
+    for (var i = 0; i < navigator.mozTelephony.calls.length; i++) {
+      console.log('  - navigator.mozTelephony.calls[' + i + ']: ' +
+        navigator.mozTelephony.calls[i].id.number);
+    }
+    console.log('  - navigator.mozTelephony.conferenceGroup: ' +
+      navigator.mozTelephony.conferenceGroup);
+    if (navigator.mozTelephony.conferenceGroup) {
+      console.log('  - navigator.mozTelephony.conferenceGroup.calls.length: ' +
+        navigator.mozTelephony.conferenceGroup.calls.length);
+      for (var j = 0; j < navigator.mozTelephony.conferenceGroup.calls.length;
+        j++) {
+        console.log('  - navigator.mozTelephony.conferenceGroup.calls[' + j +
+          ']: ' + navigator.mozTelephony.conferenceGroup.calls[j].id.number);
+      }
+    }
   }
 };

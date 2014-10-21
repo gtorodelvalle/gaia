@@ -12,7 +12,8 @@ function HandledCall(aCall) {
   aCall.addEventListener('statechange', this);
   aCall.addEventListener('statechange', CallsHandler.updatePlaceNewCall);
 
-  aCall.ongroupchange = (function onGroupChange() {
+  aCall.ongroupchange = (function onGroupChange(ev) {
+    CallScreen.showEventInfo(ev, 'TelephonyCall');
     if (this.call.group) {
       CallScreen.moveToGroup(this.node);
       this._leftGroup = false;
@@ -90,6 +91,7 @@ HandledCall.prototype._wasUnmerged = function hc_wasUnmerged() {
 };
 
 HandledCall.prototype.handleEvent = function hc_handle(evt) {
+  CallScreen.showEventInfo(evt, 'TelephonyCall');
   switch (evt.call.state) {
     case 'connected':
       // The dialer agent in the system app plays and stops the ringtone once

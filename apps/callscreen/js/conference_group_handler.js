@@ -29,7 +29,8 @@ var ConferenceGroupHandler = (function() {
     telephony.conferenceGroup.onerror = onConferenceError;
   }
 
-  function onCallsChanged() {
+  function onCallsChanged(ev) {
+    CallScreen.showEventInfo(ev, 'TelephonyCallGroup');
     var calls = telephony.conferenceGroup.calls;
     CallScreen.updateCallsDisplay();
     if (!calls.length) {
@@ -83,7 +84,8 @@ var ConferenceGroupHandler = (function() {
     }, CallScreen.callEndPromptTime);
   }
 
-  function onStateChange() {
+  function onStateChange(ev) {
+    CallScreen.showEventInfo(ev, 'TelephonyCallGroup');
     switch (telephony.conferenceGroup.state) {
       case 'resuming':
       case 'connected':

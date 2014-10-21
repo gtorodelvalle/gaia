@@ -77,7 +77,8 @@ var CallsHandler = (function callsHandler() {
 
   /* === Handled calls === */
   var highPriorityWakeLock = null;
-  function onCallsChanged() {
+  function onCallsChanged(ev) {
+    CallScreen.showEventInfo(ev, 'mozTelephony');
     // Acquire or release the high-priority wake lock, as necessary.  This
     // (mostly) prevents this process from being killed while we're on a call.
     if (!highPriorityWakeLock && telephony.calls.length > 0) {
