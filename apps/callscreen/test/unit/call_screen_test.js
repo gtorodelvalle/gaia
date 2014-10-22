@@ -728,7 +728,7 @@ suite('call screen', function() {
   });
 
   suite('toggleOnHold', function() {
-    test('should put active-state class when there is an active call', 
+    test('should put active-state class when there is an active call',
     function() {
       var mockCall = new MockCall('12334', 'connected');
       navigator.mozTelephony.active = mockCall;
@@ -737,15 +737,15 @@ suite('call screen', function() {
       assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
     });
 
-    test('should remove active-state class when there isn\'t an active call', 
+    test('should remove active-state class when there isn\'t an active call',
     function() {
       navigator.mozTelephony.active = null;
-    
+
       CallScreen.toggleOnHold();
       assert.isFalse(CallScreen.holdButton.classList.contains('active-state'));
     });
 
-    test('should put active-state class with conferenceCall on holding', 
+    test('should put active-state class with conferenceCall on holding',
     function() {
       navigator.mozTelephony.conferenceGroup.state = 'holding';
 
@@ -753,7 +753,7 @@ suite('call screen', function() {
       assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
     });
 
-    test('should remove active-state class with conferenceCall on connected', 
+    test('should remove active-state class with conferenceCall on connected',
     function() {
       navigator.mozTelephony.conferenceGroup.state = 'connected';
 
@@ -777,14 +777,12 @@ suite('call screen', function() {
     test('should add the disabled attribute', function() {
       CallScreen.disablePlaceNewCallButton();
       assert.equal(
-        CallScreen.placeNewCallButton.getAttribute('disabled'), 'disabled'
-      );
+        CallScreen.placeNewCallButton.getAttribute('disabled'), 'disabled');
     });
     test('should remove the disabled attribute', function() {
       CallScreen.enablePlaceNewCallButton();
       assert.equal(
-        CallScreen.placeNewCallButton.getAttribute('disabled'), null
-      );
+        CallScreen.placeNewCallButton.getAttribute('disabled'), null);
     });
   });
 
@@ -792,8 +790,7 @@ suite('call screen', function() {
     test('should add the disabled attribute', function() {
       CallScreen.disableSpeakerButton();
       assert.equal(
-        CallScreen.speakerButton.getAttribute('disabled'), 'disabled'
-      );
+        CallScreen.speakerButton.getAttribute('disabled'), 'disabled');
     });
     test('should remove the disabled attribute', function() {
       CallScreen.enableSpeakerButton();

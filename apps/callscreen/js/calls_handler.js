@@ -802,12 +802,12 @@ var CallsHandler = (function callsHandler() {
     var isEstablishing = isEstablishingCall();
     var openLines = telephony.calls.length +
       (telephony.conferenceGroup.calls.length ? 1 : 0);
-    
+
     if (openLines > 1 && !isEstablishing) {
       CallScreen.hideOnHoldButton();
       CallScreen.showMergeButton();
     } else {
-      if (isEstablishing) {
+      if (isEstablishing || isFirstCallOnCdmaNetwork()) {
         CallScreen.disableOnHoldButton();
       } else {
         CallScreen.enableOnHoldButton();

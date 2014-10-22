@@ -504,11 +504,13 @@ suite('dialer/handled_call', function() {
     });
 
     test('the place new call button status is updated', function() {
-      sinon.assert.called(MockCallsHandler.updatePlaceNewCall);
+      // Call passes through the 'holding' and 'held' states.
+      sinon.assert.calledTwice(MockCallsHandler.updatePlaceNewCall);
     });
 
     test('the merge and on hold buttons status is updated', function() {
-      sinon.assert.called(MockCallsHandler.updateMergeAndOnHoldStatus);
+      // Call passes through the 'holding' and 'held' states.
+      sinon.assert.calledTwice(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
   });
 
@@ -536,11 +538,15 @@ suite('dialer/handled_call', function() {
     });
 
     test('the place new call button status is updated', function() {
-      sinon.assert.called(MockCallsHandler.updatePlaceNewCall);
+      // Call passes through the 'holding', 'held', 'resuming' and 'connected'
+      //  states.
+      sinon.assert.callCount(MockCallsHandler.updatePlaceNewCall, 4);
     });
 
     test('the merge and on hold buttons status is updated', function() {
-      sinon.assert.called(MockCallsHandler.updateMergeAndOnHoldStatus);
+      // Call passes through the 'holding', 'held', 'resuming' and 'connected'
+      //  states.
+      sinon.assert.callCount(MockCallsHandler.updateMergeAndOnHoldStatus, 4);
     });
   });
 
