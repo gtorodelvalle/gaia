@@ -125,6 +125,14 @@ var CallsHandler = (function callsHandler() {
       }
     }
 
+    // To avoid flicking, since the on hold button is visible by default for
+    //  GSM networks, in the case of CDMA networks the on hold and merge buttons
+    //  are hidden before showing the call screen since these capabilities
+    //  are not available.
+    if (isFirstCallOnCdmaNetwork()) {
+      CallScreen.hideOnHoldButton();
+      CallScreen.hideMergeButton();
+    }
     CallScreen.toggle();
     exitCallScreenIfNoCalls();
   }
@@ -799,6 +807,11 @@ var CallsHandler = (function callsHandler() {
   }
 
   function updateMergeAndOnHoldStatus() {
+    // CDMA networks do not have the option to put calls on hold or to merge
+    //  calls and consequently both buttons are hidden. So, just return.
+    if (isFirstCallOnCdmaNetwork()) {
+      return;
+    }
     var isEstablishing = isEstablishingCall();
     var openLines = telephony.calls.length +
       (telephony.conferenceGroup.calls.length ? 1 : 0);
@@ -807,7 +820,7 @@ var CallsHandler = (function callsHandler() {
       CallScreen.hideOnHoldButton();
       CallScreen.showMergeButton();
     } else {
-      if (isEstablishing || isFirstCallOnCdmaNetwork()) {
+      if (isEstablishing) {
         CallScreen.disableOnHoldButton();
       } else {
         CallScreen.enableOnHoldButton();
