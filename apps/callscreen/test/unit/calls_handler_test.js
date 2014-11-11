@@ -662,8 +662,10 @@ suite('calls handler', function() {
     });
 
     suite('> extra call ending', function() {
+      var firstCall;
+
       setup(function() {
-        var firstCall = new MockCall('543552', 'incoming');
+        firstCall = new MockCall('543552', 'incoming');
         var extraCall = new MockCall('12334', 'incoming');
 
         telephonyAddCall.call(this, firstCall, {trigger: true});
@@ -677,6 +679,54 @@ suite('calls handler', function() {
         this.sinon.spy(MockCallScreen, 'hideIncoming');
         MockNavigatorMozTelephony.mTriggerCallsChanged();
         sinon.assert.calledOnce(MockCallScreen.hideIncoming);
+      });
+
+      test('should not resume the pending call if put on hold by the user',
+      function() {
+        this.sinon.spy(firstCall, 'resume');
+        MockNavigatorMozTelephony.active = MockNavigatorMozTelephony.calls[0];
+        MockNavigatorMozTelephony.calls[0].state = 'connected';
+        CallsHandler.holdOrResumeSingleCall(true);
+        MockNavigatorMozTelephony.calls[0].state = 'held';
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+        sinon.assert.notCalled(firstCall.resume);
+      });
+
+      test('should resume the pending call if put on hold but not by the user',
+      function() {
+        this.sinon.spy(firstCall, 'resume');
+        MockNavigatorMozTelephony.active = MockNavigatorMozTelephony.calls[0];
+        MockNavigatorMozTelephony.calls[0].state = 'connected';
+        CallsHandler.holdOrResumeSingleCall();
+        MockNavigatorMozTelephony.calls[0].state = 'held';
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+        sinon.assert.calledOnce(firstCall.resume);
+      });
+
+      test('should resume the pending call if the user toggled between them',
+      function() {
+        this.sinon.spy(firstCall, 'resume');
+        MockNavigatorMozTelephony.active = MockNavigatorMozTelephony.calls[0];
+        MockNavigatorMozTelephony.calls[0].state = 'connected';
+        CallsHandler.holdOrResumeSingleCall(true);
+        MockNavigatorMozTelephony.active = null;
+        MockNavigatorMozTelephony.calls[0].state = 'held';
+        CallsHandler.toggleCalls();
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+        sinon.assert.calledTwice(firstCall.resume);
+      });
+
+      test('should resume the pending call if the user merged the calls',
+      function() {
+        this.sinon.spy(firstCall, 'resume');
+        MockNavigatorMozTelephony.active = MockNavigatorMozTelephony.calls[0];
+        MockNavigatorMozTelephony.calls[0].state = 'connected';
+        CallsHandler.holdOrResumeSingleCall(true);
+        MockNavigatorMozTelephony.active = null;
+        MockNavigatorMozTelephony.calls[0].state = 'held';
+        CallsHandler.mergeCalls();
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+        sinon.assert.calledOnce(firstCall.resume);
       });
 
       test('should not close the callscreen app', function() {
@@ -795,21 +845,51 @@ suite('calls handler', function() {
         telephonyAddCall.call(this, secondConfCall, {trigger: true});
 
         // Merge calls
+        MockNavigatorMozTelephony.active =
+          MockNavigatorMozTelephony.conferenceGroup;
         MockNavigatorMozTelephony.conferenceGroup.calls = [firstConfCall,
                                                   secondConfCall];
         firstConfCall.group = MockNavigatorMozTelephony.conferenceGroup;
         secondConfCall.group = MockNavigatorMozTelephony.conferenceGroup;
         MockNavigatorMozTelephony.calls = [];
         MockNavigatorMozTelephony.mTriggerGroupCallsChanged();
-
-        // Add extra call
-        telephonyAddCall.call(this, extraCall, {trigger: true});
-        MockNavigatorMozTelephony.calls = [extraCall];
-        MockNavigatorMozTelephony.mTriggerCallsChanged();
       });
 
-      test('should resume the conference call', function() {
+      test('should not resume the conference call if put on hold by the user',
+      function() {
         this.sinon.spy(MockNavigatorMozTelephony.conferenceGroup, 'resume');
+
+        // Put the ongoing conference call on hold.
+        CallsHandler.holdOrResumeSingleCall(true);
+
+        // Add extra call.
+        telephonyAddCall.call(this, extraCall, {trigger: true});
+        MockNavigatorMozTelephony.active = extraCall;
+        MockNavigatorMozTelephony.calls = [extraCall];
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+
+        // Hang up the extra call.
+        MockNavigatorMozTelephony.active =
+          MockNavigatorMozTelephony.conferenceGroup;
+        MockNavigatorMozTelephony.calls = [];
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+
+        sinon.assert.notCalled(
+          MockNavigatorMozTelephony.conferenceGroup.resume);
+
+        // Release the call put on hold by the user status.
+        CallsHandler.holdOrResumeSingleCall();
+      });
+
+      test('should resume the conference call otherwise', function() {
+        this.sinon.spy(MockNavigatorMozTelephony.conferenceGroup, 'resume');
+
+        // Add extra call.
+        telephonyAddCall.call(this, extraCall, {trigger: true});
+        MockNavigatorMozTelephony.active = extraCall;
+        MockNavigatorMozTelephony.calls = [extraCall];
+        MockNavigatorMozTelephony.mTriggerCallsChanged();
+
         MockNavigatorMozTelephony.calls = [];
         MockNavigatorMozTelephony.mTriggerCallsChanged();
         sinon.assert.called(MockNavigatorMozTelephony.conferenceGroup.resume);
