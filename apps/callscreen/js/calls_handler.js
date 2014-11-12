@@ -17,6 +17,9 @@ var CallsHandler = (function callsHandler() {
   var exitCallScreenTimeout = null;
 
   var toneInterval = null; // Timer used to play the waiting tone
+
+  var callHeldByUser = false;
+
   var telephony = window.navigator.mozTelephony;
   telephony.oncallschanged = onCallsChanged;
 
@@ -229,12 +232,15 @@ var CallsHandler = (function callsHandler() {
       return;
     }
 
-    // The remaining call was held, resume it
-    if (remainingCall.call.group) {
-      remainingCall.call.group.resume();
-    } else {
-      remainingCall.call.resume();
+    // The remaining call was held, resume it if not held by the user.
+    if (!callHeldByUser) {
+      if (remainingCall.call.group) {
+        remainingCall.call.group.resume();
+      } else {
+        remainingCall.call.resume();
+      }
     }
+    CallScreen.toggleOnHold();
   }
 
   function turnScreenOn(call) {
@@ -384,7 +390,7 @@ var CallsHandler = (function callsHandler() {
       case 'CHLD=2':
         // Hold the active call and answer the other one
         if ((handledCalls.length === 1) && !cdmaCallWaiting()) {
-          holdOrResumeSingleCall();
+          holdOrResumeSingleCall(true);
         } else {
           holdAndAnswer();
         }
@@ -573,10 +579,11 @@ var CallsHandler = (function callsHandler() {
     }
 
     telephony.active.hold();
+    callHeldByUser = false;
     btHelper.toggleCalls();
   }
 
-  function holdOrResumeSingleCall() {
+  function holdOrResumeSingleCall(requestedByUser) {
     var openLines = telephony.calls.length +
       (telephony.conferenceGroup.calls.length ? 1 : 0);
 
@@ -590,6 +597,7 @@ var CallsHandler = (function callsHandler() {
 
     if (telephony.active) {
       telephony.active.hold();
+      callHeldByUser = requestedByUser;
       CallScreen.render('connected-hold');
       CallScreen.disableMuteButton();
       CallScreen.disableSpeakerButton();
@@ -598,11 +606,11 @@ var CallsHandler = (function callsHandler() {
         telephony.calls[0] : telephony.conferenceGroup;
 
       line.resume();
+      callHeldByUser = false;
       CallScreen.render('connected');
       CallScreen.enableMuteButton();
       CallScreen.enableSpeakerButton();
     }
-    CallScreen.toggleOnHold();
   }
 
   // Hang up the held call or the second incoming call
@@ -801,6 +809,7 @@ var CallsHandler = (function callsHandler() {
     } else {
       telephony.conferenceGroup.add(telephony.calls[0]);
     }
+    callHeldByUser = false;
   }
 
   /* === Telephony audio channel competing functions ===*/
