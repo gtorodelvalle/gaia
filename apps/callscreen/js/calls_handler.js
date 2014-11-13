@@ -240,7 +240,9 @@ var CallsHandler = (function callsHandler() {
         remainingCall.call.resume();
       }
     }
-    CallScreen.toggleOnHold();
+    // Update the on hold button active status based on the existence of an
+    //  active call.
+    CallScreen.setOnHoldActiveStatus(!telephony.active);
   }
 
   function turnScreenOn(call) {

@@ -1,4 +1,4 @@
-/* globals CallScreen, FontSizeManager, MockCall, MockCallsHandler, Utils,
+/* globals CallScreen, FontSizeManager, MockCallsHandler, Utils,
            MockHandledCall, MockMozActivity, MockNavigatorMozTelephony,
            MockMozL10n, MocksHelper, MockSettingsListener, performance */
 
@@ -670,21 +670,16 @@ suite('call screen', function() {
     });
   });
 
-  suite('toggleOnHold', function() {
-    test('should remove active-state class when there is an active call',
+  suite('setOnHoldActiveStatus', function() {
+    test('should disable the active state of the on hold button',
     function() {
-      var mockCall = new MockCall('12334', 'connected');
-      navigator.mozTelephony.active = mockCall;
-
-      CallScreen.toggleOnHold();
+      CallScreen.setOnHoldActiveStatus(false);
       assert.isFalse(CallScreen.holdButton.classList.contains('active-state'));
     });
 
-    test('should put active-state class when there isn\'t an active call',
+    test('should enable the active state of the on hold button',
     function() {
-      navigator.mozTelephony.active = null;
-
-      CallScreen.toggleOnHold();
+      CallScreen.setOnHoldActiveStatus(true);
       assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
     });
   });

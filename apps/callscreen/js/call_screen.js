@@ -320,9 +320,8 @@ var CallScreen = {
     this.toggleBluetoothMenu(false);
   },
 
-  toggleOnHold: function cs_toggleOnHold() {
-    this.holdButton.classList.toggle(
-      'active-state', !navigator.mozTelephony.active);
+  setOnHoldActiveStatus: function cs_setOnHoldActiveStatus(enabled) {
+    this.holdButton.classList.toggle('active-state', enabled);
   },
 
   // when BT device available: switch to BT

@@ -287,7 +287,7 @@ suite('dialer/handled_call', function() {
       this.sinon.spy(AudioCompetingHelper, 'compete');
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
-      this.sinon.spy(MockCallScreen, 'toggleOnHold');
+      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._connect();
     });
 
@@ -354,8 +354,8 @@ suite('dialer/handled_call', function() {
       sinon.assert.calledOnce(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
 
-    test('the on hold button active status is set', function() {
-      sinon.assert.calledOnce(MockCallScreen.toggleOnHold);
+    test('the on hold button active status is disabled', function() {
+      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, false);
     });
 
     test('AudioCompetingHelper compete gets called when connected', function() {
@@ -505,7 +505,7 @@ suite('dialer/handled_call', function() {
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
       this.sinon.spy(AudioCompetingHelper, 'leaveCompetition');
-      this.sinon.spy(MockCallScreen, 'toggleOnHold');
+      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._hold();
     });
 
@@ -528,8 +528,8 @@ suite('dialer/handled_call', function() {
       sinon.assert.calledTwice(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
 
-    test('the on hold button active status is set', function() {
-      sinon.assert.calledOnce(MockCallScreen.toggleOnHold);
+    test('the on hold button active status is enabled', function() {
+      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, true);
     });
   });
 
@@ -537,7 +537,7 @@ suite('dialer/handled_call', function() {
     setup(function() {
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
-      this.sinon.spy(MockCallScreen, 'toggleOnHold');
+      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._hold();
       MockCallScreen.mSyncSpeakerCalled = false;
       MockCallScreen.mEnableKeypadCalled = false;
@@ -570,7 +570,7 @@ suite('dialer/handled_call', function() {
     });
 
     test('the on hold button active status is set', function() {
-      sinon.assert.calledTwice(MockCallScreen.toggleOnHold);
+      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, true);
     });
   });
 
