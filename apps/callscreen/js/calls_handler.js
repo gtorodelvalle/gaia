@@ -598,8 +598,6 @@ var CallsHandler = (function callsHandler() {
       telephony.active.hold();
       callHeldByUser = requestedByUser;
       CallScreen.render('connected-hold');
-      CallScreen.disableMuteButton();
-      CallScreen.disableSpeakerButton();
     } else {
       var line = telephony.calls.length ?
         telephony.calls[0] : telephony.conferenceGroup;
@@ -607,8 +605,6 @@ var CallsHandler = (function callsHandler() {
       line.resume();
       callHeldByUser = false;
       CallScreen.render('connected');
-      CallScreen.enableMuteButton();
-      CallScreen.enableSpeakerButton();
     }
   }
 

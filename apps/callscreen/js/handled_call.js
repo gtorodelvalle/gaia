@@ -91,6 +91,7 @@ HandledCall.prototype._wasUnmerged = function hc_wasUnmerged() {
 };
 
 HandledCall.prototype.handleEvent = function hc_handle(evt) {
+  this.udpateMuteAndSpeakerStatus();
   CallsHandler.updatePlaceNewCall();
   CallsHandler.updateMergeAndOnHoldStatus();
   switch (evt.call.state) {
@@ -377,4 +378,14 @@ HandledCall.prototype.hide = function hc_hide() {
     this.node.hidden = true;
   }
   CallScreen.updateCallsDisplay();
+};
+
+HandledCall.prototype.udpateMuteAndSpeakerStatus = function() {
+  if (navigator.mozTelephony.active) {
+    CallScreen.enableMuteButton();
+    CallScreen.enableSpeakerButton();
+  } else {
+    CallScreen.disableMuteButton();
+    CallScreen.disableSpeakerButton();
+  }
 };
