@@ -240,9 +240,6 @@ var CallsHandler = (function callsHandler() {
         remainingCall.call.resume();
       }
     }
-    // Update the on hold button active status based on the existence of an
-    //  active call.
-    CallScreen.setOnHoldActiveStatus(!telephony.active);
   }
 
   function turnScreenOn(call) {
@@ -870,6 +867,10 @@ var CallsHandler = (function callsHandler() {
       CallScreen.hideOnHoldButton();
       CallScreen.showMergeButton();
     } else {
+      CallScreen.setShowIsHeld(
+        !telephony.active &&
+        (telephony.calls.some(call => call.state === 'held') ||
+          telephony.conferenceGroup.state === 'held'));
       if (isEstablishing) {
         CallScreen.disableOnHoldButton();
       } else {

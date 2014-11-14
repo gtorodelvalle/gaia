@@ -287,7 +287,6 @@ suite('dialer/handled_call', function() {
       this.sinon.spy(AudioCompetingHelper, 'compete');
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
-      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._connect();
     });
 
@@ -352,10 +351,6 @@ suite('dialer/handled_call', function() {
 
     test('the merge and on hold buttons status is updated', function() {
       sinon.assert.calledOnce(MockCallsHandler.updateMergeAndOnHoldStatus);
-    });
-
-    test('the on hold button active status is disabled', function() {
-      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, false);
     });
 
     test('AudioCompetingHelper compete gets called when connected', function() {
@@ -505,7 +500,6 @@ suite('dialer/handled_call', function() {
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
       this.sinon.spy(AudioCompetingHelper, 'leaveCompetition');
-      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._hold();
     });
 
@@ -527,17 +521,12 @@ suite('dialer/handled_call', function() {
       // Call passes through the 'holding' and 'held' states.
       sinon.assert.calledTwice(MockCallsHandler.updateMergeAndOnHoldStatus);
     });
-
-    test('the on hold button active status is enabled', function() {
-      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, true);
-    });
   });
 
   suite('resuming', function() {
     setup(function() {
       this.sinon.spy(MockCallsHandler, 'updatePlaceNewCall');
       this.sinon.spy(MockCallsHandler, 'updateMergeAndOnHoldStatus');
-      this.sinon.spy(MockCallScreen, 'setOnHoldActiveStatus');
       mockCall._hold();
       MockCallScreen.mSyncSpeakerCalled = false;
       MockCallScreen.mEnableKeypadCalled = false;
@@ -567,10 +556,6 @@ suite('dialer/handled_call', function() {
       // Call passes through the 'holding', 'held', 'resuming' and 'connected'
       //  states.
       sinon.assert.callCount(MockCallsHandler.updateMergeAndOnHoldStatus, 4);
-    });
-
-    test('the on hold button active status is set', function() {
-      sinon.assert.calledWith(MockCallScreen.setOnHoldActiveStatus, true);
     });
   });
 

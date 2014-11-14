@@ -320,7 +320,7 @@ var CallScreen = {
     this.toggleBluetoothMenu(false);
   },
 
-  setOnHoldActiveStatus: function cs_setOnHoldActiveStatus(enabled) {
+  setShowIsHeld: function cs_setShowIsHeld(enabled) {
     this.holdButton.classList.toggle('active-state', enabled);
   },
 

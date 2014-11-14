@@ -94,7 +94,7 @@ var MockCallScreen = {
   },
   hidePlaceNewCallButton: function() {},
   showPlaceNewCallButton: function() {},
-  setOnHoldActiveStatus : function() {},
+  setShowIsHeld : function() {},
   cdmaConferenceCall: function() {},
   removeEndedCalls: function() {},
   set holdAndAnswerOnly(enabled) {

@@ -670,16 +670,16 @@ suite('call screen', function() {
     });
   });
 
-  suite('setOnHoldActiveStatus', function() {
+  suite('setShowIsHeld', function() {
     test('should disable the active state of the on hold button',
     function() {
-      CallScreen.setOnHoldActiveStatus(false);
+      CallScreen.setShowIsHeld(false);
       assert.isFalse(CallScreen.holdButton.classList.contains('active-state'));
     });
 
     test('should enable the active state of the on hold button',
     function() {
-      CallScreen.setOnHoldActiveStatus(true);
+      CallScreen.setShowIsHeld(true);
       assert.isTrue(CallScreen.holdButton.classList.contains('active-state'));
     });
   });
