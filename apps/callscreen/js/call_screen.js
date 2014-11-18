@@ -73,10 +73,12 @@ var CallScreen = {
   },
 
   updateCallsDisplay: function cs_updateCallsDisplay() {
-    var visibleCalls =
-      this.calls.querySelectorAll('section:not([hidden])').length;
-    this.body.classList.toggle('single-line', visibleCalls <= 1);
-    this.calls.classList.toggle('big-duration', visibleCalls <= 1);
+    if (!this.inStatusBarMode) {
+      var visibleCalls =
+        this.calls.querySelectorAll('section:not([hidden])').length;
+      this.body.classList.toggle('single-line', visibleCalls <= 1);
+      this.calls.classList.toggle('big-duration', visibleCalls <= 1);
+    }
     CallsHandler.updateAllPhoneNumberDisplays();
   },
 
@@ -109,7 +111,7 @@ var CallScreen = {
   },
 
   get inStatusBarMode() {
-    return window.innerHeight <= 40;
+    return window.innerHeight <= 50;
   },
 
   init: function cs_init() {
@@ -257,11 +259,12 @@ var CallScreen = {
   resizeHandler: function cs_resizeHandler() {
     // If a user has the keypad opened, we want to display the number called
     // while in status bar mode. And restore the digits typed when exiting.
-    if (!this.body.classList.contains('showKeypad')) {
-      this.updateCallsDisplay(this.inStatusBarMode);
-    } else if (this.inStatusBarMode) {
+    if (this.inStatusBarMode) {
       this._typedNumber = KeypadManager._phoneNumber;
       KeypadManager.restorePhoneNumber();
+      this.updateCallsDisplay();
+    } else if (!this.body.classList.contains('showKeypad')) {
+      this.updateCallsDisplay();
     } else {
       KeypadManager.updatePhoneNumber(this._typedNumber, 'begin', true);
     }

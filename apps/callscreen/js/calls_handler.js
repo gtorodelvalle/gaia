@@ -352,13 +352,33 @@ var CallsHandler = (function callsHandler() {
   }
 
   function updateAllPhoneNumberDisplays() {
-    handledCalls.forEach(function(call) {
-      if (!call._leftGroup) {
-        call.restorePhoneNumber();
+    if (CallScreen.inStatusBarMode) {
+      var line = activeCall();
+      if (!line) {
+        if (telephony.active === telephony.conferenceGroup ||
+          (telephony.conferenceGroup &&
+            telephony.conferenceGroup.state === 'held')) {
+          line = ConferenceGroupHandler;
+        } else {
+          line = handledCalls[0];
+        }
       }
-    });
+      if (line) {
+        line.setStatusBarNotification();
+      }
+    } else {
+      handledCalls.forEach(function(call) {
+        if (!call._leftGroup) {
+          call.restoreAdditionalContactInfo();
+          call.restorePhoneNumber();
+        }
+      });
+      if (telephony.conferenceGroup) {
+        ConferenceGroupHandler.restoreAdditionalContactInfo();
+        ConferenceGroupHandler.restorePhoneNumber();
+      }
+    }
   }
-  window.addEventListener('resize', updateAllPhoneNumberDisplays);
 
   /* === Bluetooth Headset support ===*/
   function handleBTCommand(message) {
