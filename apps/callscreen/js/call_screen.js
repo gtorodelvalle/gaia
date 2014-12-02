@@ -279,11 +279,11 @@ var CallScreen = {
     }
   },
 
-  toggleMute: function cs_toggleMute() {
-    this.muteButton.classList.toggle('active-state');
-    this.hideBarMuteButton.classList.toggle('active-state');
-    this.calls.classList.toggle('muted');
-    CallsHandler.toggleMute();
+  toggleMute: function cs_toggleMute(event, force) {
+    this.muteButton.classList.toggle('active-state', force);
+    this.hideBarMuteButton.classList.toggle('active-state', force);
+    this.calls.classList.toggle('muted', force);
+    CallsHandler.toggleMute(force);
   },
 
   unmute: function cs_unmute() {
@@ -293,9 +293,9 @@ var CallScreen = {
     CallsHandler.unmute();
   },
 
-  toggleSpeaker: function cs_toggleSpeaker() {
-    this.speakerButton.classList.toggle('active-state');
-    CallsHandler.toggleSpeaker();
+  toggleSpeaker: function cs_toggleSpeaker(event, force) {
+    this.speakerButton.classList.toggle('active-state', force);
+    CallsHandler.toggleSpeaker(force);
   },
 
   toggleBluetoothMenu: function cs_toggleBluetoothMenu(value) {
@@ -306,7 +306,7 @@ var CallScreen = {
     }
   },
 
-  switchToSpeaker: function cs_switchToReceiver() {
+  switchToSpeaker: function cs_switchToSpeaker() {
     this.speakerButton.classList.add('active-state');
     this.bluetoothButton.classList.add('active-state');
     CallsHandler.switchToSpeaker();
@@ -419,6 +419,14 @@ var CallScreen = {
     this.muteButton.setAttribute('disabled', 'disabled');
   },
 
+  enableKeypadButton: function cs_enableKeypadButton() {
+    this.keypadButton.removeAttribute('disabled');
+  },
+
+  disableKeypadButton: function cs_disableKeypadButton() {
+    this.keypadButton.setAttribute('disabled', 'disabled');
+  },
+
   enablePlaceNewCallButton: function cs_enablePlaceNewCallButton() {
     this.placeNewCallButton.removeAttribute('disabled');
   },
@@ -449,6 +457,14 @@ var CallScreen = {
 
   disableOnHoldButton: function cs_disableOnHoldButton() {
     this.holdButton.setAttribute('disabled', 'disabled');
+  },
+
+  enableMergeButton: function cs_enableMergeButton() {
+    this.mergeButton.removeAttribute('disabled');
+  },
+
+  disableMergeButton: function cs_disablMergeButton() {
+    this.mergeButton.setAttribute('disabled', 'disabled');
   },
 
   showMergeButton: function cs_showMergeButton() {

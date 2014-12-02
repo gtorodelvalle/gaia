@@ -91,10 +91,9 @@ HandledCall.prototype._wasUnmerged = function hc_wasUnmerged() {
 };
 
 HandledCall.prototype.handleEvent = function hc_handle(evt) {
-  CallsHandler.updatePlaceNewCall();
-  CallsHandler.updateMergeAndOnHoldStatus();
   switch (evt.call.state) {
     case 'connected':
+      CallsHandler.updateOptionsStatus();
       // The dialer agent in the system app plays and stops the ringtone once
       // the call state changes. If we play silence right after the ringtone
       // stops then a mozinterrupbegin event is fired. This is a race condition
@@ -106,10 +105,12 @@ HandledCall.prototype.handleEvent = function hc_handle(evt) {
       this.connected();
       break;
     case 'disconnected':
+      CallsHandler.updateOptionsStatus();
       AudioCompetingHelper.leaveCompetition();
       this.disconnected();
       break;
     case 'held':
+      CallsHandler.updateOptionsStatus();
       AudioCompetingHelper.leaveCompetition();
       this.node.classList.add('held');
       break;

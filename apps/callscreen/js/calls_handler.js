@@ -1,12 +1,9 @@
 /* globals AudioCompetingHelper, BluetoothHelper, CallScreen,
-           ConferenceGroupHandler, Contacts, HandledCall, KeypadManager,
-           LazyL10n, SimplePhoneMatcher, TonePlayer, Utils */
+           ConferenceGroupHandler, Contacts, FontSizeManager, HandledCall,
+           KeypadManager, LazyL10n, SimplePhoneMatcher, TonePlayer, Utils */
+/* exported CallsHandler */
 
 'use strict';
-
-/* globals BluetoothHelper, CallScreen, Contacts, FontSizeManager, HandledCall,
-           KeypadManager, LazyL10n, SimplePhoneMatcher, TonePlayer, Utils,
-           AudioCompetingHelper */
 
 var CallsHandler = (function callsHandler() {
   // Changing this will probably require markup changes
@@ -22,6 +19,10 @@ var CallsHandler = (function callsHandler() {
   // if: there is no call on hold, or the user didn't hold it by pressing
   // the 'Hold' button.
   var callHeldByUser = null;
+
+  var mutedCalls = new Set();
+
+  var onSpeakerCalls = new Set();
 
   var telephony = window.navigator.mozTelephony;
   telephony.oncallschanged = onCallsChanged;
@@ -122,6 +123,8 @@ var CallsHandler = (function callsHandler() {
                       telephony.conferenceGroup.calls.some(hcIterator);
 
       if (!stillHere) {
+        mutedCalls.delete(handledCalls[index].call);
+        onSpeakerCalls.delete(handledCalls[index].call);
         removeCall(index);
       }
     }
@@ -143,6 +146,7 @@ var CallsHandler = (function callsHandler() {
     if (isFirstCallOnCdmaNetwork()) {
       CallScreen.hideOnHoldAndMergeContainer();
     }
+    updateOptionsStatus();
     CallScreen.setCallerContactImage();
     exitCallScreenIfNoCalls(CallScreen.callEndPromptTime);
   }
@@ -194,8 +198,6 @@ var CallsHandler = (function callsHandler() {
 
       // User performed another outgoing call. show its status.
       } else {
-        updatePlaceNewCall();
-        updateMergeAndOnHoldStatus();
         hc.show();
       }
     } else {
@@ -564,10 +566,7 @@ var CallsHandler = (function callsHandler() {
       return;
     }
 
-    var openLines = telephony.calls.length +
-      (telephony.conferenceGroup.calls.length ? 1 : 0);
-
-    if (openLines < 2 && !cdmaCallWaiting()) {
+    if (getNumberOfCalls() < 2 && !cdmaCallWaiting()) {
       // Putting a call on Hold when there are no other
       // calls in progress has been disabled until a less
       // accidental user-interface is implemented.
@@ -592,10 +591,7 @@ var CallsHandler = (function callsHandler() {
   }
 
   function holdOrResumeSingleCall() {
-    var openLines = telephony.calls.length +
-      (telephony.conferenceGroup.calls.length ? 1 : 0);
-
-    if (openLines !== 1 || isFirstCallOnCdmaNetwork()) {
+    if (getNumberOfCalls() !== 1 || isFirstCallOnCdmaNetwork()) {
       return;
     }
 
@@ -606,8 +602,6 @@ var CallsHandler = (function callsHandler() {
     if (telephony.active) {
       telephony.active.hold();
       CallScreen.render('connected-hold');
-      CallScreen.disableMuteButton();
-      CallScreen.disableSpeakerButton();
     } else {
       var line = telephony.calls.length ?
         telephony.calls[0] : telephony.conferenceGroup;
@@ -615,8 +609,6 @@ var CallsHandler = (function callsHandler() {
       line.resume();
       callHeldByUser = null;
       CallScreen.render('connected');
-      CallScreen.enableMuteButton();
-      CallScreen.enableSpeakerButton();
     }
   }
 
@@ -677,6 +669,7 @@ var CallsHandler = (function callsHandler() {
 
   function unmute() {
     telephony.muted = false;
+    mutedCalls.delete(getCallInFront());
   }
 
   function switchToSpeaker() {
@@ -685,12 +678,14 @@ var CallsHandler = (function callsHandler() {
     btHelper.disconnectSco();
     if (!telephony.speakerEnabled) {
       telephony.speakerEnabled = true;
+      onSpeakerCalls.add(getCallInFront());
     }
   }
 
   function switchToDefaultOut(doNotConnect) {
     if (telephony.speakerEnabled) {
       telephony.speakerEnabled = false;
+      onSpeakerCalls.delete(getCallInFront());
     }
 
     if (!doNotConnect && telephony.active && !document.hidden) {
@@ -706,18 +701,37 @@ var CallsHandler = (function callsHandler() {
     btHelper.disconnectSco();
     if (telephony.speakerEnabled) {
       telephony.speakerEnabled = false;
+      onSpeakerCalls.delete(getCallInFront());
     }
   }
 
-  function toggleMute() {
-    telephony.muted = !telephony.muted;
+  function toggleMute(force) {
+    if (Object.is(force, undefined)) {
+      telephony.muted = !telephony.muted;
+    } else {
+      telephony.muted = !!force;
+    }
+
+    if (telephony.muted) {
+      mutedCalls.add(getCallInFront());
+    } else {
+      mutedCalls.delete(getCallInFront());
+    }
   }
 
-  function toggleSpeaker() {
-    if (telephony.speakerEnabled) {
-      CallsHandler.switchToDefaultOut();
+  function toggleSpeaker(force) {
+    if (Object.is(force, undefined)) {
+      telephony.speakerEnabled = !telephony.speakerEnabled;
     } else {
-      CallsHandler.switchToSpeaker();
+      telephony.speakerEnabled = !!force;
+    }
+
+    if (telephony.speakerEnabled) {
+      switchToSpeaker();
+      onSpeakerCalls.add(getCallInFront());
+    } else {
+      switchToDefaultOut();
+      onSpeakerCalls.delete(getCallInFront());
     }
   }
 
@@ -774,6 +788,22 @@ var CallsHandler = (function callsHandler() {
     return [activeCall()].concat(handledCalls).find(function(elem) {
       return !elem || !elem.call.group;
     });
+  }
+
+  function getCallInFront() {
+    var callInFront,
+        establishingCall = getEstablishingCall();
+    if (establishingCall) {
+      callInFront = establishingCall;
+    } else if (telephony.active) {
+      callInFront = telephony.active;
+    } else if (telephony.conferenceGroup &&
+      telephony.conferenceGroup.calls.length) {
+      callInFront = telephony.conferenceGroup;
+    } else {
+      callInFront = telephony.calls[0];
+    }
+    return callInFront;
   }
 
   /**
@@ -834,30 +864,82 @@ var CallsHandler = (function callsHandler() {
    * onmozinterrupbegin event handler.
    */
   function onMozInterrupBegin() {
-    var openLines =
-      telephony.calls.length + (telephony.conferenceGroup.calls.length ? 1 : 0);
-
     // If there are multiple calls handled by the callscreen app and it is
     // interrupted by another app which uses the telephony audio channel the
     // callscreen wins.
-    if (openLines !== 1) {
+    if (getNumberOfCalls() !== 1) {
      forceAnAudioCompetitionWin();
       return;
     }
     holdOrResumeSingleCall();
   }
 
-  function isEstablishingCall() {
-    return telephony.calls.some(function(call) {
-      return call.state == 'dialing' || call.state == 'alerting';
-    });
+  function getEstablishingCall() {
+    return telephony.calls.filter(function(call) {
+      return call.state === 'connecting' || call.state === 'incoming' ||
+        call.state === 'alerting' || call.state === 'dialing';
+    })[0];
   }
 
-  function updatePlaceNewCall() {
-    if (isEstablishingCall()) {
-      CallScreen.disablePlaceNewCallButton();
-    } else {
+  function updatePlaceNewCallStatus() {
+    if (getNumberOfCalls() === 1 && !getEstablishingCall() &&
+      (telephony.active || isAnyCallOnHold())) {
+      // There's no establishing call and 1 active or on held call.
+      // Enable the place new call button.
       CallScreen.enablePlaceNewCallButton();
+    } else {
+      // Disable the place new call butto otherwise.
+      CallScreen.disablePlaceNewCallButton();
+    }
+  }
+
+  function updateKeypadStatus() {
+    if (telephony.active && !getEstablishingCall()) {
+      // There's 1 active call and no additional establishing call.
+      // Enable the keypad button.
+      CallScreen.enableKeypadButton();
+    } else {
+      // Disable the keypad button otherwise.
+      CallScreen.disableKeypadButton();
+    }
+  }
+
+  function updateMuteAndSpeakerStatus() {
+    var establishingCall = getEstablishingCall();
+    if (getNumberOfCalls() === 0) {
+      // There are no ongoing calls.
+      // Disable the mute and the speaker buttons.
+      CallScreen.disableMuteButton();
+      CallScreen.disableSpeakerButton();
+    } else if (establishingCall) {
+      // There's 1 establishing call.
+      // Enable the mute and the speaker buttons.
+      CallScreen.enableMuteButton();
+      CallScreen.enableSpeakerButton();
+      // Deactivate the mute and the speaker.
+      CallScreen.toggleMute(null, mutedCalls.has(establishingCall));
+      CallScreen.toggleSpeaker(null, onSpeakerCalls.has(establishingCall));
+    } else if (telephony.active) {
+      // There's 1 active call.
+      // Enable the mute and the speaker buttons.
+      CallScreen.enableMuteButton();
+      CallScreen.enableSpeakerButton();
+      // Restore the muted and on-speaker status of the active call.
+      CallScreen.toggleMute(null, mutedCalls.has(telephony.active));
+      CallScreen.toggleSpeaker(null, onSpeakerCalls.has(telephony.active));
+    } else if (isAnyCallOnHold()) {
+      // There's 1 held call.
+      // Enable the mute and the speaker buttons.
+      CallScreen.enableMuteButton();
+      CallScreen.enableSpeakerButton();
+      // Restore the muted and on-speaker status of the held call.
+      var heldCall = telephony.calls[0] || telephony.conferenceGroup;
+      CallScreen.toggleMute(null, mutedCalls.has(heldCall));
+      CallScreen.toggleSpeaker(null, onSpeakerCalls.has(heldCall));
+    } else {
+      // Disable the mute and the speaker buttons otherwise.
+      CallScreen.disableMuteButton();
+      CallScreen.disableSpeakerButton();
     }
   }
 
@@ -867,29 +949,54 @@ var CallsHandler = (function callsHandler() {
     if (isFirstCallOnCdmaNetwork()) {
       return;
     }
-    var isEstablishing = isEstablishingCall();
-    var openLines = telephony.calls.length +
-      (telephony.conferenceGroup.calls.length ? 1 : 0);
 
-    if (openLines > 1 && !isEstablishing) {
+    var numberOfCalls = getNumberOfCalls();
+    if (numberOfCalls === 0) {
+      // There's no ongoing calls.
+      // Disable the put-on-hold and merge buttons.
+      CallScreen.disableOnHoldButton();
+      CallScreen.disableMergeButton();
+    } else if (getEstablishingCall() ||
+      (!telephony.active && !isAnyCallOnHold())) {
+      // There's an establishing call or no active either held calls.
+      // Hide the merge button.
+      CallScreen.hideMergeButton();
+      // Show the put-on-hold button as disabled and not active.
+      CallScreen.setShowIsHeld(false);
+      CallScreen.disableOnHoldButton();
+      CallScreen.showOnHoldButton();
+    } else if (numberOfCalls === 1) {
+      // There's 1 ongoing call.
+      // Hide the merge button.
+      CallScreen.hideMergeButton();
+      // Show the put-on-hold button as enabled and active if the ongoing
+      // call is held.
+      CallScreen.setShowIsHeld(isAnyCallOnHold());
+      CallScreen.enableOnHoldButton();
+      CallScreen.showOnHoldButton();
+    } else {
+      // Hide the put-on-hold button and show the merge one otherwise.
       CallScreen.hideOnHoldButton();
       CallScreen.showMergeButton();
-    } else {
-      CallScreen.setShowIsHeld(
-        !telephony.active && isAnyCallOnHold());
-      if (isEstablishing) {
-        CallScreen.disableOnHoldButton();
-      } else {
-        CallScreen.enableOnHoldButton();
-      }
-      CallScreen.hideMergeButton();
-      CallScreen.showOnHoldButton();
     }
+  }
+
+  function updateOptionsStatus() {
+    updateMuteAndSpeakerStatus();
+    updateKeypadStatus();
+    updatePlaceNewCallStatus();
+    updateMergeAndOnHoldStatus();
   }
 
   function isAnyCallOnHold() {
     return telephony.calls.some((call) => call.state === 'held') ||
       telephony.conferenceGroup.state === 'held';
+  }
+
+  function getNumberOfCalls() {
+    return telephony.calls.length +
+      ((telephony.conferenceGroup && telephony.conferenceGroup.calls.length) ?
+        1 : 0);
   }
 
   return {
@@ -912,9 +1019,8 @@ var CallsHandler = (function callsHandler() {
     checkCalls: onCallsChanged,
     mergeCalls: mergeCalls,
     updateAllPhoneNumberDisplays: updateAllPhoneNumberDisplays,
-    updatePlaceNewCall: updatePlaceNewCall,
     exitCallScreenIfNoCalls: exitCallScreenIfNoCalls,
-    updateMergeAndOnHoldStatus: updateMergeAndOnHoldStatus,
+    updateOptionsStatus: updateOptionsStatus,
 
     get activeCall() {
       return activeCall();
